@@ -1,5 +1,6 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { Toaster } from "@/components/ui/sonner"
 
 const queryClient = new QueryClient()
 
@@ -13,6 +14,7 @@ function RootLayout() {
       <div className="min-h-screen bg-background text-foreground">
         <Outlet />
       </div>
+      <Toaster />
     </QueryClientProvider>
   )
 }

@@ -17,7 +17,11 @@ function getStoredUser(): User | null {
 
 function storeAuth(data: AuthResponse) {
   localStorage.setItem("token", data.token.token)
-  localStorage.setItem("user", JSON.stringify(data.user))
+  const user: User = {
+    ...data.user,
+    dailyCalories: data.lastDailyCalorie?.value ?? null,
+  }
+  localStorage.setItem("user", JSON.stringify(user))
 }
 
 function clearAuth() {
@@ -43,7 +47,10 @@ export function useLogin() {
       apiClient.post<AuthResponse>("/auth/login", input).then((r) => r.data),
     onSuccess: (data) => {
       storeAuth(data)
-      queryClient.setQueryData(USER_QUERY_KEY, data.user)
+      queryClient.setQueryData(USER_QUERY_KEY, {
+        ...data.user,
+        dailyCalories: data.lastDailyCalorie?.value ?? null,
+      })
       navigate({ to: "/" })
     },
   })
@@ -60,7 +67,10 @@ export function useRegister() {
         .then((r) => r.data),
     onSuccess: (data) => {
       storeAuth(data)
-      queryClient.setQueryData(USER_QUERY_KEY, data.user)
+      queryClient.setQueryData(USER_QUERY_KEY, {
+        ...data.user,
+        dailyCalories: data.lastDailyCalorie?.value ?? null,
+      })
       navigate({ to: "/" })
     },
   })

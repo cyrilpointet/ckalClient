@@ -19,6 +19,7 @@ export interface User {
   email: string
   username: string
   isSuperadmin: boolean
+  dailyCalories: number | null
 }
 
 export interface AuthToken {
@@ -30,7 +31,16 @@ export interface AuthToken {
   expiresAt: string | null
 }
 
+export interface DailyCalorie {
+  id: string
+  userId: string
+  value: number
+  createdAt: string
+  updatedAt: string
+}
+
 export interface AuthResponse {
   user: User
   token: AuthToken
+  lastDailyCalorie: DailyCalorie | null
 }
