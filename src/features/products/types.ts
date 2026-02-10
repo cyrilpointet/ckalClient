@@ -3,7 +3,10 @@ import { z } from "zod"
 export const createProductSchema = z.object({
   name: z.string().min(1, "Nom requis"),
   description: z.string().nullable(),
-  kcal: z.number().int("Doit être un entier").min(0, "Doit être positif"),
+  kcal: z
+    .number()
+    .int("Doit être un entier")
+    .min(1, "Doit être supérieur à 0"),
   consumedAt: z.date({ message: "Date requise" }),
 })
 
