@@ -1,9 +1,7 @@
 import { type ReactNode, useState } from "react"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { format } from "date-fns"
-import { fr } from "date-fns/locale"
-import { CalendarIcon, LoaderCircleIcon, SparklesIcon } from "lucide-react"
+import { LoaderCircleIcon, SparklesIcon } from "lucide-react"
 import { toast } from "sonner"
 import {
   createProductSchema,
@@ -11,17 +9,10 @@ import {
   type CreateProductPayload,
 } from "@/features/products/types"
 import apiClient from "@/lib/axios"
-import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Calendar } from "@/components/ui/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { PageLayout } from "@/components/PageLayout"
 
@@ -49,7 +40,6 @@ export function ProductForm({
   const {
     register,
     handleSubmit,
-    control,
     watch,
     setValue,
     formState: { errors },
@@ -84,7 +74,6 @@ export function ProductForm({
       name: data.name,
       description: data.description?.trim() || null,
       kcal: data.kcal,
-      consumedAt: data.consumedAt.toISOString(),
     })
   }
 
@@ -134,44 +123,6 @@ export function ProductForm({
                     ? "Estimation en cours..."
                     : "Estimation calorique"}
                 </Button>
-              )}
-            </div>
-            <div className="space-y-2">
-              <Label>Date de consommation</Label>
-              <Controller
-                control={control}
-                name="consumedAt"
-                render={({ field }) => (
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className={cn(
-                          "w-full justify-start text-left font-normal",
-                          !field.value && "text-muted-foreground",
-                        )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {field.value
-                          ? format(field.value, "PPP", { locale: fr })
-                          : "Choisir une date"}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={(date) => date && field.onChange(date)}
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                )}
-              />
-              {errors.consumedAt && (
-                <p className="text-sm text-destructive">
-                  {errors.consumedAt.message}
-                </p>
               )}
             </div>
             <div className="space-y-2">

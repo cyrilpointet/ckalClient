@@ -26,7 +26,6 @@ export function NewProductPage({
         name: defaultName ?? "",
         description: defaultDescription ?? null,
         kcal: defaultKcal ?? 0,
-        consumedAt: new Date(),
       }}
       footer={
         <Link

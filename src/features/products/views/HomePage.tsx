@@ -1,20 +1,17 @@
-import { Link } from "@tanstack/react-router"
 import { useUser, useLogout } from "@/features/auth/api/useAuth"
-import { useTodayProducts } from "@/features/products/api/useTodayProducts"
-import { useDeleteProduct } from "@/features/products/api/useDeleteProduct"
+import { useConsumedProducts } from "@/features/consumption/api/useConsumedProducts"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { CardContent } from "@/components/ui/card"
 import { PageLayout } from "@/components/PageLayout"
-import { X } from "lucide-react"
 
 export function HomePage() {
   const { data: user } = useUser()
   const logout = useLogout()
-  const { data: products, isLoading } = useTodayProducts()
-  const deleteProduct = useDeleteProduct()
+  const { data: consumedProducts } = useConsumedProducts(new Date())
 
-  const totalKcal = products?.reduce((sum, p) => sum + p.kcal, 0) ?? 0
+  const totalKcal =
+    consumedProducts?.reduce((sum, p) => sum + p.product.kcal, 0) ?? 0
   const dailyCalories = user?.dailyCalories ?? null
   const isOver = dailyCalories !== null && totalKcal > dailyCalories
 
@@ -49,51 +46,7 @@ export function HomePage() {
             )}
           </div>
 
-          {isLoading && (
-            <p className="text-center text-sm text-muted-foreground">
-              Chargement...
-            </p>
-          )}
-
-          {products && products.length > 0 && (
-            <ul className="divide-y">
-              {products.map((product) => (
-                <li key={product.id} className="flex items-center gap-1">
-                  <Link
-                    to="/products/$productId"
-                    params={{ productId: product.id }}
-                    className="flex flex-1 items-center justify-between py-2 hover:bg-accent rounded px-2 -mx-2 transition-colors"
-                  >
-                    <span className="text-sm">{product.name}</span>
-                    <span className="text-sm font-medium">
-                      {product.kcal} kcal
-                    </span>
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => deleteProduct.mutate(product.id)}
-                    className="p-1 text-muted-foreground hover:text-destructive transition-colors"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-
-          {products && products.length === 0 && !isLoading && (
-            <p className="text-center text-sm text-muted-foreground">
-              Aucun produit consommé aujourd'hui
-            </p>
-          )}
-
           <div className="flex flex-col items-center gap-4">
-            <Link to="/products/new">
-              <Button>Ajouter un produit</Button>
-            </Link>
-            <Link to="/daily-calories">
-              <Button variant="outline">Objectif calorique</Button>
-            </Link>
             <Button
               variant="destructive"
               onClick={() => logout.mutate()}

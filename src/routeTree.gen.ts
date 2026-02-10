@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DailyCaloriesRouteImport } from './routes/daily-calories'
+import { Route as ConsumptionRouteImport } from './routes/consumption'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsNewRouteImport } from './routes/products.new'
 import { Route as ProductsProductIdRouteImport } from './routes/products.$productId'
 import { Route as ProductsProductIdEditRouteImport } from './routes/products.$productId_.edit'
@@ -32,9 +34,19 @@ const DailyCaloriesRoute = DailyCaloriesRouteImport.update({
   path: '/daily-calories',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConsumptionRoute = ConsumptionRouteImport.update({
+  id: '/consumption',
+  path: '/consumption',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsIndexRoute = ProductsIndexRouteImport.update({
+  id: '/products/',
+  path: '/products/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductsNewRoute = ProductsNewRouteImport.update({
@@ -55,69 +67,83 @@ const ProductsProductIdEditRoute = ProductsProductIdEditRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/consumption': typeof ConsumptionRoute
   '/daily-calories': typeof DailyCaloriesRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
+  '/products/': typeof ProductsIndexRoute
   '/products/$productId/edit': typeof ProductsProductIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/consumption': typeof ConsumptionRoute
   '/daily-calories': typeof DailyCaloriesRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
+  '/products': typeof ProductsIndexRoute
   '/products/$productId/edit': typeof ProductsProductIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/consumption': typeof ConsumptionRoute
   '/daily-calories': typeof DailyCaloriesRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
+  '/products/': typeof ProductsIndexRoute
   '/products/$productId_/edit': typeof ProductsProductIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/consumption'
     | '/daily-calories'
     | '/login'
     | '/register'
     | '/products/$productId'
     | '/products/new'
+    | '/products/'
     | '/products/$productId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/consumption'
     | '/daily-calories'
     | '/login'
     | '/register'
     | '/products/$productId'
     | '/products/new'
+    | '/products'
     | '/products/$productId/edit'
   id:
     | '__root__'
     | '/'
+    | '/consumption'
     | '/daily-calories'
     | '/login'
     | '/register'
     | '/products/$productId'
     | '/products/new'
+    | '/products/'
     | '/products/$productId_/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ConsumptionRoute: typeof ConsumptionRoute
   DailyCaloriesRoute: typeof DailyCaloriesRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
   ProductsProductIdRoute: typeof ProductsProductIdRoute
   ProductsNewRoute: typeof ProductsNewRoute
+  ProductsIndexRoute: typeof ProductsIndexRoute
   ProductsProductIdEditRoute: typeof ProductsProductIdEditRoute
 }
 
@@ -144,11 +170,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DailyCaloriesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/consumption': {
+      id: '/consumption'
+      path: '/consumption'
+      fullPath: '/consumption'
+      preLoaderRoute: typeof ConsumptionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/': {
+      id: '/products/'
+      path: '/products'
+      fullPath: '/products/'
+      preLoaderRoute: typeof ProductsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products/new': {
@@ -177,11 +217,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ConsumptionRoute: ConsumptionRoute,
   DailyCaloriesRoute: DailyCaloriesRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
   ProductsProductIdRoute: ProductsProductIdRoute,
   ProductsNewRoute: ProductsNewRoute,
+  ProductsIndexRoute: ProductsIndexRoute,
   ProductsProductIdEditRoute: ProductsProductIdEditRoute,
 }
 export const routeTree = rootRouteImport

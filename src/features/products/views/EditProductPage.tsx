@@ -35,7 +35,6 @@ export function EditProductPage({ productId }: { productId: string }) {
         name: product.name,
         description: product.description,
         kcal: product.kcal,
-        consumedAt: new Date(product.consumedAt),
       }}
       footer={
         <Link
