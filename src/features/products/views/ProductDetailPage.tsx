@@ -10,6 +10,16 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -31,6 +41,7 @@ export function ProductDetailPage({ productId }: { productId: string }) {
   const deleteProduct = useDeleteProduct()
   const createConsumedProduct = useCreateConsumedProduct()
   const [isAddOpen, setIsAddOpen] = useState(false)
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
 
@@ -99,14 +110,9 @@ export function ProductDetailPage({ productId }: { productId: string }) {
           <Button
             variant="destructive"
             className="w-full"
-            disabled={deleteProduct.isPending}
-            onClick={() =>
-              deleteProduct.mutate(product.id, {
-                onSuccess: () => navigate({ to: "/" }),
-              })
-            }
+            onClick={() => setIsDeleteOpen(true)}
           >
-            {deleteProduct.isPending ? "Suppression..." : "Supprimer"}
+            Supprimer
           </Button>
           <Link
             to="/"
@@ -170,6 +176,28 @@ export function ProductDetailPage({ productId }: { productId: string }) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Supprimer le produit</AlertDialogTitle>
+            <AlertDialogDescription>
+              Cette action est irréversible. Voulez-vous vraiment supprimer ce produit ?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() =>
+                deleteProduct.mutate(product.id, {
+                  onSuccess: () => navigate({ to: "/products" }),
+                })
+              }
+            >
+              Supprimer
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </PageLayout>
   )
 }

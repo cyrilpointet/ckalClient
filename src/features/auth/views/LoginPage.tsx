@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CardContent, CardFooter } from "@/components/ui/card"
-import { PageLayout } from "@/components/PageLayout"
+import { AuthPageLayout } from "@/components/AuthPageLayout"
 import { AxiosError } from "axios"
 
 export function LoginPage() {
@@ -33,7 +33,7 @@ export function LoginPage() {
         : null
 
   return (
-    <PageLayout title="Connexion">
+    <AuthPageLayout title="Connexion">
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
             {apiError && (
@@ -88,6 +88,6 @@ export function LoginPage() {
             </p>
           </CardFooter>
         </form>
-    </PageLayout>
+    </AuthPageLayout>
   )
 }

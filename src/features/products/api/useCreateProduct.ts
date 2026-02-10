@@ -12,7 +12,7 @@ export function useCreateProduct() {
     mutationFn: (input: CreateProductPayload) =>
       apiClient.post<Product>("/products/", input).then((r) => r.data),
     onSuccess: () => {
-      navigate({ to: "/" })
+      navigate({ to: "/products" })
     },
     onError: (error) => {
       const message =
