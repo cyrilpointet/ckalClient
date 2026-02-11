@@ -1,12 +1,23 @@
+import { useState } from "react"
 import { Link, useNavigate } from "@tanstack/react-router"
 import { useProducts } from "@/features/products/api/useProducts"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { PageLayout } from "@/components/PageLayout"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { BarcodeScanner } from "../components/BarcodeScanner"
+import { Scan } from "lucide-react"
 
 export function ProductsPage() {
   const navigate = useNavigate()
   const { data: products, isLoading } = useProducts()
+  const [isScanOpen, setIsScanOpen] = useState(false)
+
+  const handleScan = (code: string) => {
+    setIsScanOpen(false)
+    console.log("Code détecté :", code)
+    // Ici : appel à ton API AdonisJS (ex: mutation.mutate(code))
+  }
 
   return (
     <PageLayout title="Mes produits">
@@ -47,7 +58,20 @@ export function ProductsPage() {
           </p>
         )}
       </CardContent>
-      <CardFooter>
+
+      <CardFooter className="gap-2">
+        <Dialog open={isScanOpen} onOpenChange={setIsScanOpen}>
+          <DialogTrigger asChild>
+            <Button variant="outline"><Scan className="mr-2 h-4 w-4" />Scanner un produit</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Scanner un produit</DialogTitle>
+            </DialogHeader>
+            <BarcodeScanner onScan={handleScan} />
+          </DialogContent>
+        </Dialog>
+
         <Link to="/products/new" className="w-full">
           <Button className="w-full">Ajouter un produit</Button>
         </Link>
