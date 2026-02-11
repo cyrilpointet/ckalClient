@@ -1,22 +1,49 @@
 import { useState } from "react"
 import { Link, useNavigate } from "@tanstack/react-router"
+import { useMutation } from "@tanstack/react-query"
 import { useProducts } from "@/features/products/api/useProducts"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { PageLayout } from "@/components/PageLayout"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { BarcodeScanner } from "../components/BarcodeScanner"
-import { Scan } from "lucide-react"
+import { LoaderCircleIcon, Scan } from "lucide-react"
+import { toast } from "sonner"
+import apiClient from "@/lib/axios"
+
+interface OffProduct {
+  name: string
+  description: string
+  weight: number
+  kcal: number
+}
 
 export function ProductsPage() {
   const navigate = useNavigate()
   const { data: products, isLoading } = useProducts()
   const [isScanOpen, setIsScanOpen] = useState(false)
 
+  const scanMutation = useMutation({
+    mutationFn: (code: string) =>
+      apiClient.get<OffProduct>(`/off/${code}`).then((r) => r.data),
+    onSuccess: (data) => {
+      navigate({
+        to: "/products/new",
+        search: {
+          name: data.name,
+          description: data.description,
+          kcal: data.kcal,
+        },
+      })
+    },
+    onError: () => {
+      toast.error("Impossible de récupérer les informations du produit")
+    },
+  })
+
   const handleScan = (code: string) => {
     setIsScanOpen(false)
-    console.log("Code détecté :", code)
-    // Ici : appel à ton API AdonisJS (ex: mutation.mutate(code))
+    scanMutation.mutate(code)
   }
 
   return (
@@ -62,7 +89,14 @@ export function ProductsPage() {
       <CardFooter className="gap-2">
         <Dialog open={isScanOpen} onOpenChange={setIsScanOpen}>
           <DialogTrigger asChild>
-            <Button variant="outline"><Scan className="mr-2 h-4 w-4" />Scanner un produit</Button>
+            <Button variant="outline" disabled={scanMutation.isPending}>
+              {scanMutation.isPending ? (
+                <LoaderCircleIcon className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Scan className="mr-2 h-4 w-4" />
+              )}
+              {scanMutation.isPending ? "Recherche..." : "Scanner un produit"}
+            </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
@@ -73,7 +107,7 @@ export function ProductsPage() {
         </Dialog>
 
         <Link to="/products/new" className="w-full">
-          <Button className="w-full">Ajouter un produit</Button>
+          <Button className="w-full" disabled={scanMutation.isPending}>Ajouter un produit</Button>
         </Link>
       </CardFooter>
     </PageLayout>

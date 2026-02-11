@@ -50,7 +50,8 @@ export function ProductForm({
 
   const name = watch("name")
   const description = watch("description")
-  const canEstimate = !!name || !!description?.trim()
+  const kcal = watch("kcal")
+  const canEstimate = (!!name || !!description?.trim()) && !(kcal > 0)
 
   const estimateCalories = async () => {
     setIsEstimating(true)
