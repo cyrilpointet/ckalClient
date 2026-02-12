@@ -41,7 +41,7 @@ export function DailyCaloriesPage() {
   return (
     <PageLayout title="Objectif calorique">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pb-6">
             <div className="space-y-2">
               <Label htmlFor="dailyCalories">Calories par jour (kcal)</Label>
               <Input

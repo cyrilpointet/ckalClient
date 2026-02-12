@@ -81,7 +81,7 @@ export function ProductForm({
   return (
     <PageLayout title={title}>
         <form onSubmit={handleSubmit(handleFormSubmit)}>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pb-6">
             <div className="space-y-2">
               <Label htmlFor="name">Nom</Label>
               <Input
