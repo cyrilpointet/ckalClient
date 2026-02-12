@@ -1,14 +1,17 @@
-import { Home, List, Target, UtensilsCrossed } from "lucide-react"
+import { Home, List, Target, UtensilsCrossed, Download } from "lucide-react"
 import { Link, useLocation } from "@tanstack/react-router"
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarSeparator,
 } from "@/components/ui/sidebar"
+import { useInstallPrompt } from "@/hooks/use-install-prompt"
 
 const navItems = [
   { title: "Accueil", to: "/", icon: Home },
@@ -19,6 +22,7 @@ const navItems = [
 
 export function AppSidebar() {
   const location = useLocation()
+  const { canInstall, promptInstall } = useInstallPrompt()
 
   return (
     <Sidebar>
@@ -47,6 +51,19 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      {canInstall && (
+        <SidebarFooter>
+          <SidebarSeparator />
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton onClick={promptInstall}>
+                <Download />
+                <span>Installer</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
+      )}
     </Sidebar>
   )
 }
