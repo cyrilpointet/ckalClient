@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { Link } from "@tanstack/react-router"
-import { format } from "date-fns"
+import { addDays, format, subDays } from "date-fns"
 import { fr } from "date-fns/locale"
-import { CalendarIcon, Trash2 } from "lucide-react"
+import { CalendarIcon, ChevronLeft, ChevronRight, Trash2 } from "lucide-react"
 import { useConsumedProducts } from "@/features/consumption/api/useConsumedProducts"
 import { useDeleteConsumedProduct } from "@/features/consumption/api/useDeleteConsumedProduct"
 import { useUser } from "@/features/auth/api/useAuth"
@@ -41,32 +41,50 @@ export function ConsumptionPage() {
   const isOver = dailyCalories !== null && totalKcal > dailyCalories
 
   return (
-    <PageLayout title="Consommation">
+    <PageLayout title={format(date, "EEEE d MMMM yyyy", { locale: fr }).replace(/^\w/, (c) => c.toUpperCase())}>
       <CardContent className="flex flex-col gap-4">
-        <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className={cn("w-full justify-start text-left font-normal")}
-            >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {format(date, "PPP", { locale: fr })}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={(d) => {
-                if (d) {
-                  setDate(d)
-                  setIsCalendarOpen(false)
-                }
-              }}
-              initialFocus
-            />
-          </PopoverContent>
-        </Popover>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setDate(subDays(date, 1))}
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  "flex-1 justify-start text-left font-normal",
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {format(date, "PPP", { locale: fr })}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={(d) => {
+                  if (d) {
+                    setDate(d)
+                    setIsCalendarOpen(false)
+                  }
+                }}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setDate(addDays(date, 1))}
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
 
         {isLoading && (
           <p className="text-center text-sm text-muted-foreground">

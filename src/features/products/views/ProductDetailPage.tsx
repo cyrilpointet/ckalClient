@@ -63,64 +63,73 @@ export function ProductDetailPage({ productId }: { productId: string }) {
 
   return (
     <PageLayout title={product.name}>
-        <CardContent className="flex flex-col gap-4">
-          {product.description && (
-            <div
-              className="prose prose-sm max-w-none text-sm"
-              dangerouslySetInnerHTML={{ __html: product.description }}
-            />
-          )}
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Calories</span>
-            <span className="font-medium">{product.kcal} kcal</span>
-          </div>
-        </CardContent>
-        <CardFooter className="flex flex-col gap-4">
-          <Button
-            className="w-full"
-            onClick={() => {
-              setSelectedDate(undefined)
-              setIsAddOpen(true)
-            }}
-          >
-            Ajouter à la consommation
-          </Button>
-          <Link
-            to="/products/$productId/edit"
-            params={{ productId: product.id }}
-            className="w-full"
-          >
-            <Button variant="outline" className="w-full">
-              Modifier
-            </Button>
-          </Link>
-          <Link
-            to="/products/new"
-            search={{
-              name: product.name,
-              description: product.description ?? undefined,
-              kcal: product.kcal,
-            }}
-            className="w-full"
-          >
-            <Button variant="outline" className="w-full">
-              Dupliquer
-            </Button>
-          </Link>
-          <Button
-            variant="destructive"
-            className="w-full"
-            onClick={() => setIsDeleteOpen(true)}
-          >
-            Supprimer
-          </Button>
-          <Link
-            to="/"
-            className="text-sm text-muted-foreground underline-offset-4 hover:underline"
-          >
-            Retour à l'accueil
-          </Link>
-        </CardFooter>
+      <CardContent className="flex flex-col gap-4">
+        {product.isRecipe && (
+          <p className="text-center text-sm italic text-muted-foreground">
+            Plat personnel
+          </p>
+        )}
+        {product.description && (
+          <div
+            className="prose prose-sm max-w-none text-sm"
+            dangerouslySetInnerHTML={{ __html: product.description }}
+          />
+        )}
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-muted-foreground">Calories</span>
+          <span className="font-medium">{product.kcal} kcal</span>
+        </div>
+      </CardContent>
+      <CardFooter className="flex flex-col gap-4">
+        {product.isRecipe && (
+          <>
+            <Link
+              to="/products/$productId/edit"
+              params={{ productId: product.id }}
+              className="w-full"
+            >
+              <Button variant="outline" className="w-full">
+                Modifier
+              </Button>
+            </Link>
+            <Link
+              to="/products/new"
+              search={{
+                name: product.name,
+                description: product.description ?? undefined,
+                kcal: product.kcal,
+              }}
+              className="w-full"
+            >
+              <Button variant="outline" className="w-full">
+                Dupliquer
+              </Button>
+            </Link>
+          </>
+        )}
+        <Button
+          className="w-full"
+          onClick={() => {
+            setSelectedDate(undefined)
+            setIsAddOpen(true)
+          }}
+        >
+          Ajouter à la consommation
+        </Button>
+        <Button
+          variant="destructive"
+          className="w-full"
+          onClick={() => setIsDeleteOpen(true)}
+        >
+          Supprimer
+        </Button>
+        <Link
+          to="/"
+          className="text-sm text-muted-foreground underline-offset-4 hover:underline"
+        >
+          Retour à l'accueil
+        </Link>
+      </CardFooter>
       <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
         <DialogContent>
           <DialogHeader>

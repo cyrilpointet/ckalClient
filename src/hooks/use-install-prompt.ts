@@ -35,7 +35,9 @@ interface InstallPromptContextValue {
 export const InstallPromptContext =
   createContext<InstallPromptContextValue | null>(null)
 
-export function useInstallPromptProvider(): InstallPromptContextValue {
+export function useInstallPromptProvider(
+  isAuthenticated: boolean
+): InstallPromptContextValue {
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null)
   const [showModal, setShowModal] = useState(false)
@@ -46,14 +48,20 @@ export function useInstallPromptProvider(): InstallPromptContextValue {
     const handler = (e: BeforeInstallPromptEvent) => {
       e.preventDefault()
       setDeferredPrompt(e)
-      if (!isSnoozed()) {
+      if (isAuthenticated && !isSnoozed()) {
         setShowModal(true)
       }
     }
 
     window.addEventListener("beforeinstallprompt", handler)
     return () => window.removeEventListener("beforeinstallprompt", handler)
-  }, [])
+  }, [isAuthenticated])
+
+  useEffect(() => {
+    if (isAuthenticated && deferredPrompt && !isSnoozed() && !isStandalone()) {
+      setShowModal(true)
+    }
+  }, [isAuthenticated, deferredPrompt])
 
   const promptInstall = useCallback(async () => {
     if (!deferredPrompt) return

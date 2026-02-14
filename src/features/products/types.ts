@@ -15,6 +15,7 @@ export interface CreateProductPayload {
   name: string
   description: string | null
   kcal: number
+  isRecipe: boolean
 }
 
 export interface Product {
@@ -23,6 +24,7 @@ export interface Product {
   name: string
   description: string | null
   kcal: number
+  isRecipe: boolean
   createdAt: string
   updatedAt: string
 }

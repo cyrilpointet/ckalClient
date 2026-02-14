@@ -75,6 +75,7 @@ export function ProductForm({
       name: data.name,
       description: data.description?.trim() || null,
       kcal: data.kcal,
+      isRecipe: true,
     })
   }
 
