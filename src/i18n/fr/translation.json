@@ -6,7 +6,10 @@
       "products": "Produits",
       "recipes": "Recettes",
       "goal": "Objectif",
-      "install": "Installer"
+      "recipeGenerator": "Générateur de recette",
+      "install": "Installer",
+      "logout": "Déconnexion",
+      "loggingOut": "Déconnexion..."
     },
     "InstallPromptModal": {
       "title": "Installer l'application",
@@ -55,7 +58,6 @@
           "mustBePositive": "Doit être supérieur à 0",
           "submitting": "Enregistrement...",
           "submit": "Enregistrer",
-          "backToHome": "Retour à l'accueil",
           "error": "Erreur lors de la mise à jour"
         }
       }
@@ -84,9 +86,7 @@
           "welcome": "Bienvenue !",
           "welcomeUser": "Bienvenue, {{username}} !",
           "kcal": "kcal",
-          "caloriesExceeded": "Objectif calorique dépassé",
-          "loggingOut": "Déconnexion...",
-          "logout": "Déconnexion"
+          "caloriesExceeded": "Objectif calorique dépassé"
         },
         "ProductsPage": {
           "title": "Mes produits",
@@ -103,8 +103,7 @@
         "NewProductPage": {
           "title": "Nouveau produit",
           "submit": "Créer le produit",
-          "submitting": "Création...",
-          "backToHome": "Retour à l'accueil"
+          "submitting": "Création..."
         },
         "EditProductPage": {
           "loading": "Chargement...",
@@ -138,8 +137,7 @@
           "confirm": "Confirmer",
           "deleteTitle": "Supprimer le produit",
           "deleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer ce produit ?",
-          "delete": "Supprimer",
-          "backToHome": "Retour à l'accueil"
+          "delete": "Supprimer"
         }
       },
       "api": {
@@ -154,6 +152,27 @@
         }
       }
     },
+    "recipes": {
+      "views": {
+        "RecipeGeneratorPage": {
+          "title": "Générateur de recette",
+          "description": "Description",
+          "descriptionPlaceholder": "Ex: Un plat léger pour le soir",
+          "ingredients": "Ingrédients",
+          "ingredientsPlaceholder": "Ex: poulet, riz, tomates",
+          "maxKcal": "Calories maximum (kcal)",
+          "maxKcalPlaceholder": "Ex: 500",
+          "submit": "Générer une recette",
+          "submitting": "Génération en cours..."
+        }
+      },
+      "api": {
+        "useGenerateRecipe": {
+          "error": "Erreur lors de la génération de la recette",
+          "rateLimitError": "Limite atteinte. Veuillez patienter {{delay}} avant de réessayer"
+        }
+      }
+    },
     "consumption": {
       "views": {
         "ConsumptionPage": {
@@ -162,6 +181,7 @@
           "total": "Total",
           "kcal": "kcal",
           "add": "Ajouter",
+          "createRecipe": "Créer une nouvelle recette",
           "deleteTitle": "Supprimer la consommation",
           "deleteDescription": "Voulez-vous vraiment supprimer cette consommation ?",
           "cancel": "Annuler",

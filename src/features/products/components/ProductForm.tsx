@@ -60,7 +60,7 @@ export function ProductForm({
     try {
       const meal = [name, description].filter(Boolean).join(" ")
       const { data } = await apiClient.post<{ total_calories: number }>(
-        "/llm/kcalculator",
+        "/ai/kcalculator",
         { meal },
       )
       setValue("kcal", data.total_calories)

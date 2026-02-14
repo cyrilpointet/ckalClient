@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as RecipeGeneratorRouteImport } from './routes/recipe-generator'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DailyCaloriesRouteImport } from './routes/daily-calories'
 import { Route as ConsumptionRouteImport } from './routes/consumption'
@@ -23,6 +24,11 @@ import { Route as ProductsProductIdEditRouteImport } from './routes/products.$pr
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecipeGeneratorRoute = RecipeGeneratorRouteImport.update({
+  id: '/recipe-generator',
+  path: '/recipe-generator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/consumption': typeof ConsumptionRoute
   '/daily-calories': typeof DailyCaloriesRoute
   '/login': typeof LoginRoute
+  '/recipe-generator': typeof RecipeGeneratorRoute
   '/register': typeof RegisterRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/consumption': typeof ConsumptionRoute
   '/daily-calories': typeof DailyCaloriesRoute
   '/login': typeof LoginRoute
+  '/recipe-generator': typeof RecipeGeneratorRoute
   '/register': typeof RegisterRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/consumption': typeof ConsumptionRoute
   '/daily-calories': typeof DailyCaloriesRoute
   '/login': typeof LoginRoute
+  '/recipe-generator': typeof RecipeGeneratorRoute
   '/register': typeof RegisterRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/consumption'
     | '/daily-calories'
     | '/login'
+    | '/recipe-generator'
     | '/register'
     | '/products/$productId'
     | '/products/new'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/consumption'
     | '/daily-calories'
     | '/login'
+    | '/recipe-generator'
     | '/register'
     | '/products/$productId'
     | '/products/new'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/consumption'
     | '/daily-calories'
     | '/login'
+    | '/recipe-generator'
     | '/register'
     | '/products/$productId'
     | '/products/new'
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   ConsumptionRoute: typeof ConsumptionRoute
   DailyCaloriesRoute: typeof DailyCaloriesRoute
   LoginRoute: typeof LoginRoute
+  RecipeGeneratorRoute: typeof RecipeGeneratorRoute
   RegisterRoute: typeof RegisterRoute
   ProductsProductIdRoute: typeof ProductsProductIdRoute
   ProductsNewRoute: typeof ProductsNewRoute
@@ -167,6 +180,13 @@ declare module '@tanstack/react-router' {
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recipe-generator': {
+      id: '/recipe-generator'
+      path: '/recipe-generator'
+      fullPath: '/recipe-generator'
+      preLoaderRoute: typeof RecipeGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -240,6 +260,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConsumptionRoute: ConsumptionRoute,
   DailyCaloriesRoute: DailyCaloriesRoute,
   LoginRoute: LoginRoute,
+  RecipeGeneratorRoute: RecipeGeneratorRoute,
   RegisterRoute: RegisterRoute,
   ProductsProductIdRoute: ProductsProductIdRoute,
   ProductsNewRoute: ProductsNewRoute,

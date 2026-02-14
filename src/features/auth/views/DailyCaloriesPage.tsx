@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useTranslation } from "react-i18next"
@@ -71,12 +70,6 @@ export function DailyCaloriesPage() {
                 ? t("features.auth.views.DailyCaloriesPage.submitting")
                 : t("features.auth.views.DailyCaloriesPage.submit")}
             </Button>
-            <Link
-              to="/"
-              className="text-sm text-muted-foreground underline-offset-4 hover:underline"
-            >
-              {t("features.auth.views.DailyCaloriesPage.backToHome")}
-            </Link>
           </CardFooter>
         </form>
     </PageLayout>

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next"
 import { Link, useNavigate } from "@tanstack/react-router"
 import { useMutation } from "@tanstack/react-query"
 import { useProducts } from "@/features/products/api/useProducts"
+import { useCreateProduct } from "@/features/products/api/useCreateProduct"
 import { useDebouncedValue } from "@/hooks/useDebouncedValue"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -35,18 +36,17 @@ export function ProductsPage() {
     isFetchingNextPage,
   } = useProducts(nameFilter)
   const [isScanOpen, setIsScanOpen] = useState(false)
+  const createProduct = useCreateProduct()
 
   const scanMutation = useMutation({
     mutationFn: (code: string) =>
       apiClient.get<OffProduct>(`/off/${code}`).then((r) => r.data),
     onSuccess: (data) => {
-      navigate({
-        to: "/products/new",
-        search: {
-          name: data.name,
-          description: data.description,
-          kcal: data.kcal,
-        },
+      createProduct.mutate({
+        name: data.name,
+        description: data.description || null,
+        kcal: data.kcal,
+        isRecipe: false,
       })
     },
     onError: () => {
@@ -125,13 +125,13 @@ export function ProductsPage() {
       <CardFooter className="gap-2">
         <Dialog open={isScanOpen} onOpenChange={setIsScanOpen}>
           <DialogTrigger asChild>
-            <Button variant="outline" disabled={scanMutation.isPending}>
-              {scanMutation.isPending ? (
+            <Button variant="outline" disabled={scanMutation.isPending || createProduct.isPending}>
+              {scanMutation.isPending || createProduct.isPending ? (
                 <LoaderCircleIcon className="mr-2 h-4 w-4 animate-spin" />
               ) : (
                 <Scan className="mr-2 h-4 w-4" />
               )}
-              {scanMutation.isPending ? t("features.products.views.ProductsPage.scanning") : t("features.products.views.ProductsPage.scan")}
+              {scanMutation.isPending || createProduct.isPending ? t("features.products.views.ProductsPage.scanning") : t("features.products.views.ProductsPage.scan")}
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
@@ -143,7 +143,7 @@ export function ProductsPage() {
         </Dialog>
 
         <Link to="/products/new" className="w-full">
-          <Button className="w-full" disabled={scanMutation.isPending}>{t("features.products.views.ProductsPage.add")}</Button>
+          <Button className="w-full" disabled={scanMutation.isPending || createProduct.isPending}>{t("features.products.views.ProductsPage.add")}</Button>
         </Link>
       </CardFooter>
     </PageLayout>

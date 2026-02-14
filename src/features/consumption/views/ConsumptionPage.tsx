@@ -146,7 +146,10 @@ export function ConsumptionPage() {
           </p>
         )}
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex flex-col gap-2">
+        <Link to="/recipe-generator" className="w-full">
+          <Button variant="outline" className="w-full">{t("features.consumption.views.ConsumptionPage.createRecipe")}</Button>
+        </Link>
         <Link to="/products" className="w-full">
           <Button className="w-full">{t("features.consumption.views.ConsumptionPage.add")}</Button>
         </Link>

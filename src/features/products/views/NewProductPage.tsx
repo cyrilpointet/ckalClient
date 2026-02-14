@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next"
-import { Link } from "@tanstack/react-router"
 import { useCreateProduct } from "@/features/products/api/useCreateProduct"
 import { ProductForm } from "@/features/products/components/ProductForm"
 
@@ -29,14 +28,7 @@ export function NewProductPage({
         description: defaultDescription ?? null,
         kcal: defaultKcal ?? 0,
       }}
-      footer={
-        <Link
-          to="/"
-          className="text-sm text-muted-foreground underline-offset-4 hover:underline"
-        >
-          {t("features.products.views.NewProductPage.backToHome")}
-        </Link>
-      }
+      footer={null}
     />
   )
 }

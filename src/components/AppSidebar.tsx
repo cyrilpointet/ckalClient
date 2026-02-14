@@ -1,4 +1,4 @@
-import { Home, List, Target, UtensilsCrossed, Download, CookingPot } from "lucide-react"
+import { Home, List, Target, UtensilsCrossed, Download, CookingPot, Sparkles, LogOut } from "lucide-react"
 import { Link, useLocation } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import {
@@ -13,6 +13,7 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar"
 import { useInstallPrompt } from "@/hooks/use-install-prompt"
+import { useLogout } from "@/features/auth/api/useAuth"
 
 const navItems = [
   { titleKey: "components.AppSidebar.home", to: "/", icon: Home },
@@ -20,12 +21,14 @@ const navItems = [
   { titleKey: "components.AppSidebar.recipes", to: "/recipes", icon: CookingPot },
   { titleKey: "components.AppSidebar.products", to: "/products", icon: List },
   { titleKey: "components.AppSidebar.goal", to: "/daily-calories", icon: Target },
+  { titleKey: "components.AppSidebar.recipeGenerator", to: "/recipe-generator", icon: Sparkles },
 ] as const
 
 export function AppSidebar() {
   const location = useLocation()
   const { canInstall, promptInstall } = useInstallPrompt()
   const { t } = useTranslation()
+  const logout = useLogout()
 
   return (
     <Sidebar>
@@ -36,6 +39,8 @@ export function AppSidebar() {
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.to}>
                   <SidebarMenuButton
+                    className="font-semibold"
+                    size="lg"
                     asChild
                     isActive={
                       item.to === "/"
@@ -54,19 +59,33 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      {canInstall && (
-        <SidebarFooter>
-          <SidebarSeparator />
-          <SidebarMenu>
+      <SidebarFooter>
+        <SidebarSeparator />
+        <SidebarMenu>
+          {canInstall && (
             <SidebarMenuItem>
               <SidebarMenuButton onClick={promptInstall}>
                 <Download />
                 <span>{t("components.AppSidebar.install")}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarFooter>
-      )}
+          )}
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              onClick={() => logout.mutate()}
+              disabled={logout.isPending}
+              className="text-destructive hover:text-destructive"
+            >
+              <LogOut />
+              <span>
+                {logout.isPending
+                  ? t("components.AppSidebar.loggingOut")
+                  : t("components.AppSidebar.logout")}
+              </span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   )
 }

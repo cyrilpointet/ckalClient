@@ -1,15 +1,13 @@
 import { useTranslation } from "react-i18next"
-import { useUser, useLogout } from "@/features/auth/api/useAuth"
+import { useUser } from "@/features/auth/api/useAuth"
 import { useConsumedProducts } from "@/features/consumption/api/useConsumedProducts"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { CardContent } from "@/components/ui/card"
 import { PageLayout } from "@/components/PageLayout"
 
 export function HomePage() {
   const { t } = useTranslation()
   const { data: user } = useUser()
-  const logout = useLogout()
   const { data: consumedProducts } = useConsumedProducts(new Date())
 
   const totalKcal =
@@ -46,16 +44,6 @@ export function HomePage() {
                 {t("features.products.views.HomePage.caloriesExceeded")}
               </p>
             )}
-          </div>
-
-          <div className="flex flex-col items-center gap-4">
-            <Button
-              variant="destructive"
-              onClick={() => logout.mutate()}
-              disabled={logout.isPending}
-            >
-              {logout.isPending ? t("features.products.views.HomePage.loggingOut") : t("features.products.views.HomePage.logout")}
-            </Button>
           </div>
         </CardContent>
     </PageLayout>

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
+import { marked } from "marked"
 import { Link, useNavigate } from "@tanstack/react-router"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
@@ -74,7 +75,11 @@ export function ProductDetailPage({ productId }: { productId: string }) {
         {product.description && (
           <div
             className="prose prose-sm max-w-none text-sm"
-            dangerouslySetInnerHTML={{ __html: product.description }}
+            dangerouslySetInnerHTML={{
+              __html: marked.parse(product.description, {
+                async: false,
+              }) as string,
+            }}
           />
         )}
         <div className="flex items-center justify-between text-sm">
@@ -112,7 +117,7 @@ export function ProductDetailPage({ productId }: { productId: string }) {
         <Button
           className="w-full"
           onClick={() => {
-            setSelectedDate(undefined)
+            setSelectedDate(new Date())
             setIsAddOpen(true)
           }}
         >
@@ -125,12 +130,6 @@ export function ProductDetailPage({ productId }: { productId: string }) {
         >
           {t("features.products.views.ProductDetailPage.delete")}
         </Button>
-        <Link
-          to="/"
-          className="text-sm text-muted-foreground underline-offset-4 hover:underline"
-        >
-          {t("features.products.views.ProductDetailPage.backToHome")}
-        </Link>
       </CardFooter>
       <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
         <DialogContent>
