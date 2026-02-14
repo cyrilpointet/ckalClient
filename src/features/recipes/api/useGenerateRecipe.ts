@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query"
-import { useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
 import { AxiosError } from "axios"
 import apiClient from "@/lib/axios"
@@ -11,30 +10,18 @@ interface GenerateRecipeInput {
   maxKcal?: number
 }
 
-interface GenerateRecipeResponse {
+export interface GenerateRecipeResponse {
   name: string
   description: string
   kCal: number
 }
 
 export function useGenerateRecipe() {
-  const navigate = useNavigate()
-
   return useMutation({
     mutationFn: (input: GenerateRecipeInput) =>
       apiClient
         .post<GenerateRecipeResponse>("/ai/recipe", input)
         .then((r) => r.data),
-    onSuccess: (data) => {
-      navigate({
-        to: "/products/new",
-        search: {
-          name: data.name,
-          description: data.description,
-          kcal: data.kCal,
-        },
-      })
-    },
     onError: (error) => {
       if (
         error instanceof AxiosError &&

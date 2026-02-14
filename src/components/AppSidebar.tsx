@@ -18,10 +18,10 @@ import { useLogout } from "@/features/auth/api/useAuth"
 const navItems = [
   { titleKey: "components.AppSidebar.home", to: "/", icon: Home },
   { titleKey: "components.AppSidebar.consumption", to: "/consumption", icon: UtensilsCrossed },
+  { titleKey: "components.AppSidebar.recipeGenerator", to: "/recipe-generator", icon: Sparkles },
   { titleKey: "components.AppSidebar.recipes", to: "/recipes", icon: CookingPot },
   { titleKey: "components.AppSidebar.products", to: "/products", icon: List },
   { titleKey: "components.AppSidebar.goal", to: "/daily-calories", icon: Target },
-  { titleKey: "components.AppSidebar.recipeGenerator", to: "/recipe-generator", icon: Sparkles },
 ] as const
 
 export function AppSidebar() {

@@ -11,7 +11,7 @@ export function HomePage() {
   const { data: consumedProducts } = useConsumedProducts(new Date())
 
   const totalKcal =
-    consumedProducts?.reduce((sum, p) => sum + p.product.kcal, 0) ?? 0
+    consumedProducts?.reduce((sum, p) => sum + p.product.kcal * p.quantity, 0) ?? 0
   const dailyCalories = user?.dailyCalories ?? null
   const isOver = dailyCalories !== null && totalKcal > dailyCalories
 

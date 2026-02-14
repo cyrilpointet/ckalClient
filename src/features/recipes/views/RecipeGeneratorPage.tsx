@@ -8,13 +8,26 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { useGenerateRecipe } from "@/features/recipes/api/useGenerateRecipe"
+import { useCreateProduct } from "@/features/products/api/useCreateProduct"
 import { useUser } from "@/features/auth/api/useAuth"
+import { useConsumedProducts } from "@/features/consumption/api/useConsumedProducts"
+import { ProductViewer } from "@/features/products/components/ProductViewer"
 
 const recipeGeneratorSchema = z.object({
   description: z.string(),
   ingredients: z.string(),
-  maxKcal: z.string(),
+  maxKcal: z.union([
+    z.number().int().min(1),
+    z.nan().transform(() => undefined),
+  ]).optional(),
 })
 
 type RecipeGeneratorForm = z.infer<typeof recipeGeneratorSchema>
@@ -22,7 +35,15 @@ type RecipeGeneratorForm = z.infer<typeof recipeGeneratorSchema>
 export function RecipeGeneratorPage() {
   const { t } = useTranslation()
   const { data: user } = useUser()
+  const { data: consumedProducts } = useConsumedProducts(new Date())
   const generateRecipe = useGenerateRecipe()
+  const createProduct = useCreateProduct()
+
+  const totalKcal =
+    consumedProducts?.reduce((sum, p) => sum + p.product.kcal * p.quantity, 0) ?? 0
+  const remainingKcal = user?.dailyCalories != null
+    ? Math.max(0, user.dailyCalories - totalKcal)
+    : undefined
 
   const {
     register,
@@ -32,7 +53,7 @@ export function RecipeGeneratorPage() {
     defaultValues: {
       description: "",
       ingredients: "",
-      maxKcal: user?.dailyCalories?.toString() ?? "",
+      maxKcal: remainingKcal,
     },
   })
 
@@ -45,7 +66,17 @@ export function RecipeGeneratorPage() {
     generateRecipe.mutate({
       description: data.description || undefined,
       ingredients: ingredients.length > 0 ? ingredients : undefined,
-      maxKcal: data.maxKcal ? Number(data.maxKcal) : undefined,
+      maxKcal: data.maxKcal,
+    })
+  }
+
+  const handleConfirm = () => {
+    if (!generateRecipe.data) return
+    createProduct.mutate({
+      name: generateRecipe.data.name,
+      description: generateRecipe.data.description || null,
+      kcal: generateRecipe.data.kCal,
+      isRecipe: true,
     })
   }
 
@@ -97,7 +128,7 @@ export function RecipeGeneratorPage() {
               placeholder={t(
                 "features.recipes.views.RecipeGeneratorPage.maxKcalPlaceholder",
               )}
-              {...register("maxKcal")}
+              {...register("maxKcal", { valueAsNumber: true })}
             />
           </div>
         </CardContent>
@@ -118,6 +149,44 @@ export function RecipeGeneratorPage() {
           </Button>
         </CardFooter>
       </form>
+
+      <Dialog
+        open={!!generateRecipe.data}
+        onOpenChange={(open) => {
+          if (!open) generateRecipe.reset()
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {t("features.recipes.views.RecipeGeneratorPage.confirmTitle")}
+            </DialogTitle>
+          </DialogHeader>
+          {generateRecipe.data && (
+            <ProductViewer
+              name={generateRecipe.data.name}
+              description={generateRecipe.data.description}
+              kcal={generateRecipe.data.kCal}
+            />
+          )}
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button
+              variant="outline"
+              onClick={() => generateRecipe.reset()}
+            >
+              {t("features.recipes.views.RecipeGeneratorPage.cancel")}
+            </Button>
+            <Button
+              onClick={handleConfirm}
+              disabled={createProduct.isPending}
+            >
+              {createProduct.isPending
+                ? t("features.recipes.views.RecipeGeneratorPage.confirming")
+                : t("features.recipes.views.RecipeGeneratorPage.confirm")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </PageLayout>
   )
 }

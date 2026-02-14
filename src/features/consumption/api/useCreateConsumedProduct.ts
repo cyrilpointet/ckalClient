@@ -8,6 +8,7 @@ import i18n from "@/i18n/i18n"
 interface CreateConsumedProductPayload {
   productId: string
   consumedAt: string
+  quantity: number
 }
 
 export function useCreateConsumedProduct() {

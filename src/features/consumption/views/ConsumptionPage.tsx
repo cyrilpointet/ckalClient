@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next"
 import { Link } from "@tanstack/react-router"
 import { addDays, format, subDays } from "date-fns"
 import { fr } from "date-fns/locale"
-import { CalendarIcon, ChevronLeft, ChevronRight, Trash2 } from "lucide-react"
+import { CalendarIcon, ChevronLeft, ChevronRight, Sparkles, Trash2 } from "lucide-react"
 import { useConsumedProducts } from "@/features/consumption/api/useConsumedProducts"
 import { useDeleteConsumedProduct } from "@/features/consumption/api/useDeleteConsumedProduct"
 import { useUser } from "@/features/auth/api/useAuth"
@@ -34,11 +34,11 @@ export function ConsumptionPage() {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
   const [itemToDelete, setItemToDelete] = useState<string | null>(null)
   const { data: user } = useUser()
-  const { data: products, isLoading } = useConsumedProducts(date)
+  const { data: consumedProducts, isLoading } = useConsumedProducts(date)
   const deleteConsumedProduct = useDeleteConsumedProduct()
 
   const totalKcal =
-    products?.reduce((sum, p) => sum + p.product.kcal, 0) ?? 0
+    consumedProducts?.reduce((sum, p) => sum + p.product.kcal * p.quantity, 0) ?? 0
   const dailyCalories = user?.dailyCalories ?? null
   const isOver = dailyCalories !== null && totalKcal > dailyCalories
 
@@ -94,10 +94,10 @@ export function ConsumptionPage() {
           </p>
         )}
 
-        {products && products.length > 0 && (
+        {consumedProducts && consumedProducts.length > 0 && (
           <>
             <ul className="divide-y">
-              {products.map((product) => (
+              {consumedProducts.map((product) => (
                 <li
                   key={product.id}
                   className="flex items-center gap-1 text-sm"
@@ -107,9 +107,14 @@ export function ConsumptionPage() {
                     params={{ productId: product.productId }}
                     className="flex flex-1 items-center justify-between rounded px-2 py-2 transition-colors hover:bg-accent"
                   >
-                    <span>{product.product.name}</span>
+                    <span>
+                      {product.product.name}
+                      {product.quantity > 1 && (
+                        <span className="text-muted-foreground"> x{product.quantity}</span>
+                      )}
+                    </span>
                     <span className="font-medium">
-                      {product.product.kcal} kcal
+                      {product.product.kcal * product.quantity} kcal
                     </span>
                   </Link>
                   <button
@@ -140,7 +145,7 @@ export function ConsumptionPage() {
           </>
         )}
 
-        {products && products.length === 0 && !isLoading && (
+        {consumedProducts && consumedProducts.length === 0 && !isLoading && (
           <p className="text-center text-sm text-muted-foreground">
             {t("features.consumption.views.ConsumptionPage.empty")}
           </p>
@@ -148,7 +153,7 @@ export function ConsumptionPage() {
       </CardContent>
       <CardFooter className="flex flex-col gap-2">
         <Link to="/recipe-generator" className="w-full">
-          <Button variant="outline" className="w-full">{t("features.consumption.views.ConsumptionPage.createRecipe")}</Button>
+          <Button variant="outline" className="w-full"><Sparkles className="h-4 w-4" />{t("features.consumption.views.ConsumptionPage.createRecipe")}</Button>
         </Link>
         <Link to="/products" className="w-full">
           <Button className="w-full">{t("features.consumption.views.ConsumptionPage.add")}</Button>

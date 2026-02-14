@@ -4,7 +4,7 @@
       "home": "Accueil",
       "consumption": "Consommation",
       "products": "Produits",
-      "recipes": "Recettes",
+      "recipes": "Mes recettes",
       "goal": "Objectif",
       "recipeGenerator": "Générateur de recette",
       "install": "Installer",
@@ -16,6 +16,9 @@
       "description": "Installez Kcal sur votre appareil pour un accès rapide et une meilleure expérience.",
       "later": "Plus tard",
       "install": "Installer"
+    },
+    "ProductViewer": {
+      "calories": "Calories"
     }
   },
   "features": {
@@ -69,6 +72,16 @@
         "mustBePositive": "Doit être supérieur à 0"
       },
       "components": {
+        "AddConsumptionDialog": {
+          "addToConsumption": "Ajouter à la consommation",
+          "chooseDate": "Choisissez la date de consommation.",
+          "pickDate": "Choisir une date",
+          "quantity": "Quantité",
+          "quantityRequired": "La quantité est requise",
+          "cancel": "Annuler",
+          "adding": "Ajout...",
+          "confirm": "Confirmer"
+        },
         "ProductForm": {
           "name": "Nom",
           "namePlaceholder": "Nom du produit",
@@ -126,15 +139,9 @@
           "loading": "Chargement...",
           "notFound": "Produit introuvable",
           "personalDish": "Plat personnel",
-          "calories": "Calories",
           "edit": "Modifier",
           "duplicate": "Dupliquer",
           "addToConsumption": "Ajouter à la consommation",
-          "chooseDate": "Choisissez la date de consommation.",
-          "pickDate": "Choisir une date",
-          "cancel": "Annuler",
-          "adding": "Ajout...",
-          "confirm": "Confirmer",
           "deleteTitle": "Supprimer le produit",
           "deleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer ce produit ?",
           "delete": "Supprimer"
@@ -163,7 +170,11 @@
           "maxKcal": "Calories maximum (kcal)",
           "maxKcalPlaceholder": "Ex: 500",
           "submit": "Générer une recette",
-          "submitting": "Génération en cours..."
+          "submitting": "Génération en cours...",
+          "confirmTitle": "Recette générée",
+          "confirm": "Ajouter à mes recettes",
+          "confirming": "Création...",
+          "cancel": "Annuler"
         }
       },
       "api": {
@@ -181,7 +192,7 @@
           "total": "Total",
           "kcal": "kcal",
           "add": "Ajouter",
-          "createRecipe": "Créer une nouvelle recette",
+          "createRecipe": "Générer une recette adaptée",
           "deleteTitle": "Supprimer la consommation",
           "deleteDescription": "Voulez-vous vraiment supprimer cette consommation ?",
           "cancel": "Annuler",
