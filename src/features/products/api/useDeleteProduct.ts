@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import apiClient from "@/lib/axios"
+import i18n from "@/i18n/i18n"
 import { AxiosError } from "axios"
 
 export function useDeleteProduct() {
@@ -15,8 +16,8 @@ export function useDeleteProduct() {
     onError: (error) => {
       const message =
         error instanceof AxiosError
-          ? error.response?.data?.message ?? "Erreur lors de la suppression"
-          : "Erreur lors de la suppression"
+          ? error.response?.data?.message ?? i18n.t("features.products.api.useDeleteProduct.error")
+          : i18n.t("features.products.api.useDeleteProduct.error")
       toast.error(message)
     },
   })

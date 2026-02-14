@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useTranslation } from "react-i18next"
 import { useRegister } from "@/features/auth/api/useAuth"
 import { registerSchema, type RegisterInput } from "@/features/auth/types"
 import { Button } from "@/components/ui/button"
@@ -11,6 +12,7 @@ import { AuthPageLayout } from "@/components/AuthPageLayout"
 import { AxiosError } from "axios"
 
 export function RegisterPage() {
+  const { t } = useTranslation()
   const registerMutation = useRegister()
 
   const {
@@ -28,13 +30,13 @@ export function RegisterPage() {
   const apiError =
     registerMutation.error instanceof AxiosError
       ? registerMutation.error.response?.data?.message ??
-        "Erreur lors de l'inscription"
+        t("features.auth.views.RegisterPage.error")
       : registerMutation.error
-        ? "Erreur lors de l'inscription"
+        ? t("features.auth.views.RegisterPage.error")
         : null
 
   return (
-    <AuthPageLayout title="Inscription">
+    <AuthPageLayout title={t("features.auth.views.RegisterPage.title")}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
             {apiError && (
@@ -43,10 +45,10 @@ export function RegisterPage() {
               </p>
             )}
             <div className="space-y-2">
-              <Label htmlFor="username">Nom d'utilisateur</Label>
+              <Label htmlFor="username">{t("features.auth.views.RegisterPage.username")}</Label>
               <Input
                 id="username"
-                placeholder="Votre nom"
+                placeholder={t("features.auth.views.RegisterPage.usernamePlaceholder")}
                 {...register("username")}
               />
               {errors.username && (
@@ -56,11 +58,11 @@ export function RegisterPage() {
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("features.auth.views.RegisterPage.email")}</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="email@exemple.com"
+                placeholder={t("features.auth.views.RegisterPage.emailPlaceholder")}
                 {...register("email")}
               />
               {errors.email && (
@@ -70,7 +72,7 @@ export function RegisterPage() {
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Mot de passe</Label>
+              <Label htmlFor="password">{t("features.auth.views.RegisterPage.password")}</Label>
               <Input
                 id="password"
                 type="password"
@@ -89,15 +91,15 @@ export function RegisterPage() {
               className="w-full"
               disabled={registerMutation.isPending}
             >
-              {registerMutation.isPending ? "Inscription..." : "S'inscrire"}
+              {registerMutation.isPending ? t("features.auth.views.RegisterPage.submitting") : t("features.auth.views.RegisterPage.submit")}
             </Button>
             <p className="text-sm text-muted-foreground">
-              Déjà un compte ?{" "}
+              {t("features.auth.views.RegisterPage.hasAccount")}{" "}
               <Link
                 to="/login"
                 className="text-primary underline-offset-4 hover:underline"
               >
-                Se connecter
+                {t("features.auth.views.RegisterPage.login")}
               </Link>
             </p>
           </CardFooter>

@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useTranslation } from "react-i18next"
 import { z } from "zod"
+import i18n from "@/i18n/i18n"
 import { useUser } from "@/features/auth/api/useAuth"
 import { useUpdateDailyCalories } from "@/features/auth/api/useUpdateDailyCalories"
 import { Button } from "@/components/ui/button"
@@ -13,13 +15,14 @@ import { PageLayout } from "@/components/PageLayout"
 const dailyCaloriesSchema = z.object({
   dailyCalories: z
     .number()
-    .int("Doit être un entier")
-    .min(1, "Doit être supérieur à 0"),
+    .int(i18n.t("features.auth.views.DailyCaloriesPage.mustBeInteger"))
+    .min(1, i18n.t("features.auth.views.DailyCaloriesPage.mustBePositive")),
 })
 
 type DailyCaloriesInput = z.infer<typeof dailyCaloriesSchema>
 
 export function DailyCaloriesPage() {
+  const { t } = useTranslation()
   const { data: user } = useUser()
   const updateDailyCalories = useUpdateDailyCalories()
 
@@ -39,11 +42,11 @@ export function DailyCaloriesPage() {
   }
 
   return (
-    <PageLayout title="Objectif calorique">
+    <PageLayout title={t("features.auth.views.DailyCaloriesPage.title")}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent className="space-y-4 pb-6">
             <div className="space-y-2">
-              <Label htmlFor="dailyCalories">Calories par jour (kcal)</Label>
+              <Label htmlFor="dailyCalories">{t("features.auth.views.DailyCaloriesPage.label")}</Label>
               <Input
                 id="dailyCalories"
                 type="number"
@@ -65,14 +68,14 @@ export function DailyCaloriesPage() {
               disabled={updateDailyCalories.isPending}
             >
               {updateDailyCalories.isPending
-                ? "Enregistrement..."
-                : "Enregistrer"}
+                ? t("features.auth.views.DailyCaloriesPage.submitting")
+                : t("features.auth.views.DailyCaloriesPage.submit")}
             </Button>
             <Link
               to="/"
               className="text-sm text-muted-foreground underline-offset-4 hover:underline"
             >
-              Retour à l'accueil
+              {t("features.auth.views.DailyCaloriesPage.backToHome")}
             </Link>
           </CardFooter>
         </form>

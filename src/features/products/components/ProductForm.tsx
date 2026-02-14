@@ -1,4 +1,5 @@
 import { type ReactNode, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { LoaderCircleIcon, SparklesIcon } from "lucide-react"
@@ -35,6 +36,7 @@ export function ProductForm({
   defaultValues,
   footer,
 }: ProductFormProps) {
+  const { t } = useTranslation()
   const [isEstimating, setIsEstimating] = useState(false)
 
   const {
@@ -62,9 +64,9 @@ export function ProductForm({
         { meal },
       )
       setValue("kcal", data.total_calories)
-      toast.success("Estimation calorique terminée")
+      toast.success(t("features.products.components.ProductForm.estimateSuccess"))
     } catch {
-      toast.error("L'estimation calorique a échoué")
+      toast.error(t("features.products.components.ProductForm.estimateError"))
     } finally {
       setIsEstimating(false)
     }
@@ -84,10 +86,10 @@ export function ProductForm({
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           <CardContent className="space-y-4 pb-6">
             <div className="space-y-2">
-              <Label htmlFor="name">Nom</Label>
+              <Label htmlFor="name">{t("features.products.components.ProductForm.name")}</Label>
               <Input
                 id="name"
-                placeholder="Nom du produit"
+                placeholder={t("features.products.components.ProductForm.namePlaceholder")}
                 {...register("name")}
               />
               {errors.name && (
@@ -97,10 +99,10 @@ export function ProductForm({
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="description">{t("features.products.components.ProductForm.description")}</Label>
               <Textarea
                 id="description"
-                placeholder="Description (optionnel)"
+                placeholder={t("features.products.components.ProductForm.descriptionPlaceholder")}
                 {...register("description")}
               />
               {errors.description && (
@@ -122,13 +124,13 @@ export function ProductForm({
                     <SparklesIcon className="mr-2 h-4 w-4" />
                   )}
                   {isEstimating
-                    ? "Estimation en cours..."
-                    : "Estimation calorique"}
+                    ? t("features.products.components.ProductForm.estimating")
+                    : t("features.products.components.ProductForm.estimate")}
                 </Button>
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="kcal">Calories (kcal)</Label>
+              <Label htmlFor="kcal">{t("features.products.components.ProductForm.caloriesLabel")}</Label>
               <Input
                 id="kcal"
                 type="number"

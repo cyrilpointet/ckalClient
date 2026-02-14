@@ -1,12 +1,13 @@
 import { z } from "zod"
+import i18n from "@/i18n/i18n"
 
 export const createProductSchema = z.object({
-  name: z.string().min(1, "Nom requis"),
+  name: z.string().min(1, i18n.t("features.products.types.nameRequired")),
   description: z.string().nullable(),
   kcal: z
     .number()
-    .int("Doit être un entier")
-    .min(1, "Doit être supérieur à 0"),
+    .int(i18n.t("features.products.types.mustBeInteger"))
+    .min(1, i18n.t("features.products.types.mustBePositive")),
 })
 
 export type CreateProductInput = z.infer<typeof createProductSchema>

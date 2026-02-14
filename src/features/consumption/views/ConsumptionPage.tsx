@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { Link } from "@tanstack/react-router"
 import { addDays, format, subDays } from "date-fns"
 import { fr } from "date-fns/locale"
@@ -28,6 +29,7 @@ import { CardContent, CardFooter } from "@/components/ui/card"
 import { PageLayout } from "@/components/PageLayout"
 
 export function ConsumptionPage() {
+  const { t } = useTranslation()
   const [date, setDate] = useState<Date>(new Date())
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
   const [itemToDelete, setItemToDelete] = useState<string | null>(null)
@@ -88,7 +90,7 @@ export function ConsumptionPage() {
 
         {isLoading && (
           <p className="text-center text-sm text-muted-foreground">
-            Chargement...
+            {t("features.consumption.views.ConsumptionPage.loading")}
           </p>
         )}
 
@@ -121,7 +123,7 @@ export function ConsumptionPage() {
               ))}
             </ul>
             <div className="flex items-center justify-between border-t pt-2 text-sm font-semibold">
-              <span>Total</span>
+              <span>{t("features.consumption.views.ConsumptionPage.total")}</span>
               <span>
                 <span className={cn(isOver && "text-destructive")}>
                   {totalKcal}
@@ -132,7 +134,7 @@ export function ConsumptionPage() {
                     / {dailyCalories}
                   </span>
                 )}{" "}
-                kcal
+                {t("features.consumption.views.ConsumptionPage.kcal")}
               </span>
             </div>
           </>
@@ -140,13 +142,13 @@ export function ConsumptionPage() {
 
         {products && products.length === 0 && !isLoading && (
           <p className="text-center text-sm text-muted-foreground">
-            Aucune consommation pour cette date
+            {t("features.consumption.views.ConsumptionPage.empty")}
           </p>
         )}
       </CardContent>
       <CardFooter>
         <Link to="/products" className="w-full">
-          <Button className="w-full">Ajouter</Button>
+          <Button className="w-full">{t("features.consumption.views.ConsumptionPage.add")}</Button>
         </Link>
       </CardFooter>
       <AlertDialog
@@ -155,13 +157,13 @@ export function ConsumptionPage() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Supprimer la consommation</AlertDialogTitle>
+            <AlertDialogTitle>{t("features.consumption.views.ConsumptionPage.deleteTitle")}</AlertDialogTitle>
             <AlertDialogDescription>
-              Voulez-vous vraiment supprimer cette consommation ?
+              {t("features.consumption.views.ConsumptionPage.deleteDescription")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogCancel>{t("features.consumption.views.ConsumptionPage.cancel")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
                 if (itemToDelete) {
@@ -170,7 +172,7 @@ export function ConsumptionPage() {
                 }
               }}
             >
-              Supprimer
+              {t("features.consumption.views.ConsumptionPage.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

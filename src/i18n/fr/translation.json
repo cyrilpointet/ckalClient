@@ -1,0 +1,181 @@
+{
+  "components": {
+    "AppSidebar": {
+      "home": "Accueil",
+      "consumption": "Consommation",
+      "products": "Produits",
+      "recipes": "Recettes",
+      "goal": "Objectif",
+      "install": "Installer"
+    },
+    "InstallPromptModal": {
+      "title": "Installer l'application",
+      "description": "Installez Kcal sur votre appareil pour un accès rapide et une meilleure expérience.",
+      "later": "Plus tard",
+      "install": "Installer"
+    }
+  },
+  "features": {
+    "auth": {
+      "types": {
+        "invalidEmail": "Email invalide",
+        "passwordRequired": "Mot de passe requis",
+        "usernameRequired": "Nom d'utilisateur requis",
+        "minChars": "6 caractères minimum"
+      },
+      "views": {
+        "LoginPage": {
+          "title": "Connexion",
+          "email": "Email",
+          "emailPlaceholder": "email@exemple.com",
+          "password": "Mot de passe",
+          "submitting": "Connexion...",
+          "submit": "Se connecter",
+          "noAccount": "Pas encore de compte ?",
+          "createAccount": "Créer un compte",
+          "error": "Erreur de connexion"
+        },
+        "RegisterPage": {
+          "title": "Inscription",
+          "username": "Nom d'utilisateur",
+          "usernamePlaceholder": "Votre nom",
+          "email": "Email",
+          "emailPlaceholder": "email@exemple.com",
+          "password": "Mot de passe",
+          "submitting": "Inscription...",
+          "submit": "S'inscrire",
+          "hasAccount": "Déjà un compte ?",
+          "login": "Se connecter",
+          "error": "Erreur lors de l'inscription"
+        },
+        "DailyCaloriesPage": {
+          "title": "Objectif calorique",
+          "label": "Calories par jour (kcal)",
+          "mustBeInteger": "Doit être un entier",
+          "mustBePositive": "Doit être supérieur à 0",
+          "submitting": "Enregistrement...",
+          "submit": "Enregistrer",
+          "backToHome": "Retour à l'accueil",
+          "error": "Erreur lors de la mise à jour"
+        }
+      }
+    },
+    "products": {
+      "types": {
+        "nameRequired": "Nom requis",
+        "mustBeInteger": "Doit être un entier",
+        "mustBePositive": "Doit être supérieur à 0"
+      },
+      "components": {
+        "ProductForm": {
+          "name": "Nom",
+          "namePlaceholder": "Nom du produit",
+          "description": "Description",
+          "descriptionPlaceholder": "Description (optionnel)",
+          "estimating": "Estimation en cours...",
+          "estimate": "Estimation calorique",
+          "estimateSuccess": "Estimation calorique terminée",
+          "estimateError": "L'estimation calorique a échoué",
+          "caloriesLabel": "Calories (kcal)"
+        }
+      },
+      "views": {
+        "HomePage": {
+          "welcome": "Bienvenue !",
+          "welcomeUser": "Bienvenue, {{username}} !",
+          "kcal": "kcal",
+          "caloriesExceeded": "Objectif calorique dépassé",
+          "loggingOut": "Déconnexion...",
+          "logout": "Déconnexion"
+        },
+        "ProductsPage": {
+          "title": "Mes produits",
+          "searchPlaceholder": "Rechercher un produit...",
+          "loading": "Chargement...",
+          "empty": "Aucun produit",
+          "loadingMore": "Chargement...",
+          "loadMore": "Voir plus",
+          "scanning": "Recherche...",
+          "scan": "Scanner un produit",
+          "add": "Ajouter un produit",
+          "scanError": "Impossible de récupérer les informations du produit"
+        },
+        "NewProductPage": {
+          "title": "Nouveau produit",
+          "submit": "Créer le produit",
+          "submitting": "Création...",
+          "backToHome": "Retour à l'accueil"
+        },
+        "EditProductPage": {
+          "loading": "Chargement...",
+          "notFound": "Produit introuvable",
+          "title": "Modifier le produit",
+          "submit": "Sauvegarder",
+          "submitting": "Sauvegarde...",
+          "cancel": "Annuler"
+        },
+        "RecipesPage": {
+          "title": "Mes recettes",
+          "searchPlaceholder": "Rechercher une recette...",
+          "loading": "Chargement...",
+          "empty": "Aucune recette",
+          "loadingMore": "Chargement...",
+          "loadMore": "Voir plus",
+          "add": "Ajouter une recette"
+        },
+        "ProductDetailPage": {
+          "loading": "Chargement...",
+          "notFound": "Produit introuvable",
+          "personalDish": "Plat personnel",
+          "calories": "Calories",
+          "edit": "Modifier",
+          "duplicate": "Dupliquer",
+          "addToConsumption": "Ajouter à la consommation",
+          "chooseDate": "Choisissez la date de consommation.",
+          "pickDate": "Choisir une date",
+          "cancel": "Annuler",
+          "adding": "Ajout...",
+          "confirm": "Confirmer",
+          "deleteTitle": "Supprimer le produit",
+          "deleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer ce produit ?",
+          "delete": "Supprimer",
+          "backToHome": "Retour à l'accueil"
+        }
+      },
+      "api": {
+        "useCreateProduct": {
+          "error": "Erreur lors de la création"
+        },
+        "useUpdateProduct": {
+          "error": "Erreur lors de la modification"
+        },
+        "useDeleteProduct": {
+          "error": "Erreur lors de la suppression"
+        }
+      }
+    },
+    "consumption": {
+      "views": {
+        "ConsumptionPage": {
+          "loading": "Chargement...",
+          "empty": "Aucune consommation pour cette date",
+          "total": "Total",
+          "kcal": "kcal",
+          "add": "Ajouter",
+          "deleteTitle": "Supprimer la consommation",
+          "deleteDescription": "Voulez-vous vraiment supprimer cette consommation ?",
+          "cancel": "Annuler",
+          "delete": "Supprimer"
+        }
+      },
+      "api": {
+        "useCreateConsumedProduct": {
+          "error": "Erreur lors de l'ajout"
+        },
+        "useDeleteConsumedProduct": {
+          "error": "Erreur lors de la suppression"
+        }
+      }
+    }
+  }
+}

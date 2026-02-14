@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { Link, useNavigate } from "@tanstack/react-router"
 import { useMutation } from "@tanstack/react-query"
 import { useProducts } from "@/features/products/api/useProducts"
@@ -21,6 +22,7 @@ interface OffProduct {
 }
 
 export function ProductsPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [search, setSearch] = useState("")
   const debouncedSearch = useDebouncedValue(search, 400)
@@ -48,7 +50,7 @@ export function ProductsPage() {
       })
     },
     onError: () => {
-      toast.error("Impossible de récupérer les informations du produit")
+      toast.error(t("features.products.views.ProductsPage.scanError"))
     },
   })
 
@@ -60,17 +62,17 @@ export function ProductsPage() {
   const allProducts = data?.pages.flatMap((page) => page.data) ?? []
 
   return (
-    <PageLayout title="Mes produits">
+    <PageLayout title={t("features.products.views.ProductsPage.title")}>
       <CardContent className="flex flex-col gap-4">
         <Input
-          placeholder="Rechercher un produit..."
+          placeholder={t("features.products.views.ProductsPage.searchPlaceholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
 
         {isLoading && (
           <p className="text-center text-sm text-muted-foreground">
-            Chargement...
+            {t("features.products.views.ProductsPage.loading")}
           </p>
         )}
 
@@ -102,12 +104,12 @@ export function ProductsPage() {
             </ul>
             {hasNextPage && (
               <Button
-                variant="outline"
+                variant="ghost"
                 className="w-full"
                 disabled={isFetchingNextPage}
                 onClick={() => fetchNextPage()}
               >
-                {isFetchingNextPage ? "Chargement..." : "Voir plus"}
+                {isFetchingNextPage ? t("features.products.views.ProductsPage.loadingMore") : t("features.products.views.ProductsPage.loadMore")}
               </Button>
             )}
           </>
@@ -115,7 +117,7 @@ export function ProductsPage() {
 
         {allProducts.length === 0 && !isLoading && (
           <p className="text-center text-sm text-muted-foreground">
-            Aucun produit
+            {t("features.products.views.ProductsPage.empty")}
           </p>
         )}
       </CardContent>
@@ -129,19 +131,19 @@ export function ProductsPage() {
               ) : (
                 <Scan className="mr-2 h-4 w-4" />
               )}
-              {scanMutation.isPending ? "Recherche..." : "Scanner un produit"}
+              {scanMutation.isPending ? t("features.products.views.ProductsPage.scanning") : t("features.products.views.ProductsPage.scan")}
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
-              <DialogTitle>Scanner un produit</DialogTitle>
+              <DialogTitle>{t("features.products.views.ProductsPage.scan")}</DialogTitle>
             </DialogHeader>
             <BarcodeScanner onScan={handleScan} />
           </DialogContent>
         </Dialog>
 
         <Link to="/products/new" className="w-full">
-          <Button className="w-full" disabled={scanMutation.isPending}>Ajouter un produit</Button>
+          <Button className="w-full" disabled={scanMutation.isPending}>{t("features.products.views.ProductsPage.add")}</Button>
         </Link>
       </CardFooter>
     </PageLayout>

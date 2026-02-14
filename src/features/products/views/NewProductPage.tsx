@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"
 import { Link } from "@tanstack/react-router"
 import { useCreateProduct } from "@/features/products/api/useCreateProduct"
 import { ProductForm } from "@/features/products/components/ProductForm"
@@ -13,13 +14,14 @@ export function NewProductPage({
   defaultDescription,
   defaultKcal,
 }: NewProductPageProps) {
+  const { t } = useTranslation()
   const createProduct = useCreateProduct()
 
   return (
     <ProductForm
-      title="Nouveau produit"
-      submitLabel="Créer le produit"
-      submittingLabel="Création..."
+      title={t("features.products.views.NewProductPage.title")}
+      submitLabel={t("features.products.views.NewProductPage.submit")}
+      submittingLabel={t("features.products.views.NewProductPage.submitting")}
       isPending={createProduct.isPending}
       onSubmit={(payload) => createProduct.mutate(payload)}
       defaultValues={{
@@ -32,7 +34,7 @@ export function NewProductPage({
           to="/"
           className="text-sm text-muted-foreground underline-offset-4 hover:underline"
         >
-          Retour à l'accueil
+          {t("features.products.views.NewProductPage.backToHome")}
         </Link>
       }
     />

@@ -1,14 +1,15 @@
 import { z } from "zod"
+import i18n from "@/i18n/i18n"
 
 export const loginSchema = z.object({
-  email: z.string().email("Email invalide"),
-  password: z.string().min(1, "Mot de passe requis"),
+  email: z.string().email(i18n.t("features.auth.types.invalidEmail")),
+  password: z.string().min(1, i18n.t("features.auth.types.passwordRequired")),
 })
 
 export const registerSchema = z.object({
-  username: z.string().min(1, "Nom d'utilisateur requis"),
-  email: z.string().email("Email invalide"),
-  password: z.string().min(6, "6 caractères minimum"),
+  username: z.string().min(1, i18n.t("features.auth.types.usernameRequired")),
+  email: z.string().email(i18n.t("features.auth.types.invalidEmail")),
+  password: z.string().min(6, i18n.t("features.auth.types.minChars")),
 })
 
 export type LoginInput = z.infer<typeof loginSchema>

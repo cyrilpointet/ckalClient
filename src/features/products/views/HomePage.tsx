@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"
 import { useUser, useLogout } from "@/features/auth/api/useAuth"
 import { useConsumedProducts } from "@/features/consumption/api/useConsumedProducts"
 import { cn } from "@/lib/utils"
@@ -6,6 +7,7 @@ import { CardContent } from "@/components/ui/card"
 import { PageLayout } from "@/components/PageLayout"
 
 export function HomePage() {
+  const { t } = useTranslation()
   const { data: user } = useUser()
   const logout = useLogout()
   const { data: consumedProducts } = useConsumedProducts(new Date())
@@ -16,7 +18,7 @@ export function HomePage() {
   const isOver = dailyCalories !== null && totalKcal > dailyCalories
 
   return (
-    <PageLayout title={`Bienvenue${user?.username ? `, ${user.username}` : ""} !`}>
+    <PageLayout title={user?.username ? t("features.products.views.HomePage.welcomeUser", { username: user.username }) : t("features.products.views.HomePage.welcome")}>
         <CardContent className="flex flex-col gap-6">
           <div className="text-center">
             <p
@@ -29,19 +31,19 @@ export function HomePage() {
               {dailyCalories !== null && (
                 <span className="text-lg font-normal text-muted-foreground">
                   {" "}
-                  / {dailyCalories} kcal
+                  / {dailyCalories} {t("features.products.views.HomePage.kcal")}
                 </span>
               )}
               {dailyCalories === null && (
                 <span className="text-lg font-normal text-muted-foreground">
                   {" "}
-                  kcal
+                  {t("features.products.views.HomePage.kcal")}
                 </span>
               )}
             </p>
             {isOver && (
               <p className="mt-1 text-sm text-destructive">
-                Objectif calorique dépassé
+                {t("features.products.views.HomePage.caloriesExceeded")}
               </p>
             )}
           </div>
@@ -52,7 +54,7 @@ export function HomePage() {
               onClick={() => logout.mutate()}
               disabled={logout.isPending}
             >
-              {logout.isPending ? "Déconnexion..." : "Déconnexion"}
+              {logout.isPending ? t("features.products.views.HomePage.loggingOut") : t("features.products.views.HomePage.logout")}
             </Button>
           </div>
         </CardContent>

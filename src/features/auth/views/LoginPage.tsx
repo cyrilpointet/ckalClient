@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useTranslation } from "react-i18next"
 import { useLogin } from "@/features/auth/api/useAuth"
 import { loginSchema, type LoginInput } from "@/features/auth/types"
 import { Button } from "@/components/ui/button"
@@ -11,6 +12,7 @@ import { AuthPageLayout } from "@/components/AuthPageLayout"
 import { AxiosError } from "axios"
 
 export function LoginPage() {
+  const { t } = useTranslation()
   const login = useLogin()
 
   const {
@@ -27,13 +29,13 @@ export function LoginPage() {
 
   const apiError =
     login.error instanceof AxiosError
-      ? login.error.response?.data?.message ?? "Erreur de connexion"
+      ? login.error.response?.data?.message ?? t("features.auth.views.LoginPage.error")
       : login.error
-        ? "Erreur de connexion"
+        ? t("features.auth.views.LoginPage.error")
         : null
 
   return (
-    <AuthPageLayout title="Connexion">
+    <AuthPageLayout title={t("features.auth.views.LoginPage.title")}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
             {apiError && (
@@ -42,11 +44,11 @@ export function LoginPage() {
               </p>
             )}
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("features.auth.views.LoginPage.email")}</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="email@exemple.com"
+                placeholder={t("features.auth.views.LoginPage.emailPlaceholder")}
                 {...register("email")}
               />
               {errors.email && (
@@ -56,7 +58,7 @@ export function LoginPage() {
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Mot de passe</Label>
+              <Label htmlFor="password">{t("features.auth.views.LoginPage.password")}</Label>
               <Input
                 id="password"
                 type="password"
@@ -75,15 +77,15 @@ export function LoginPage() {
               className="w-full"
               disabled={login.isPending}
             >
-              {login.isPending ? "Connexion..." : "Se connecter"}
+              {login.isPending ? t("features.auth.views.LoginPage.submitting") : t("features.auth.views.LoginPage.submit")}
             </Button>
             <p className="text-sm text-muted-foreground">
-              Pas encore de compte ?{" "}
+              {t("features.auth.views.LoginPage.noAccount")}{" "}
               <Link
                 to="/register"
                 className="text-primary underline-offset-4 hover:underline"
               >
-                Créer un compte
+                {t("features.auth.views.LoginPage.createAccount")}
               </Link>
             </p>
           </CardFooter>

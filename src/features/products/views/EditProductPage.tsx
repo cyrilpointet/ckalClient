@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"
 import { Link } from "@tanstack/react-router"
 import { useProduct } from "@/features/products/api/useProduct"
 import { useUpdateProduct } from "@/features/products/api/useUpdateProduct"
@@ -5,13 +6,14 @@ import { ProductForm } from "@/features/products/components/ProductForm"
 import { PageLayout } from "@/components/PageLayout"
 
 export function EditProductPage({ productId }: { productId: string }) {
+  const { t } = useTranslation()
   const { data: product, isLoading } = useProduct(productId)
   const updateProduct = useUpdateProduct(productId)
 
   if (isLoading) {
     return (
       <PageLayout>
-        <p className="text-muted-foreground">Chargement...</p>
+        <p className="text-muted-foreground">{t("features.products.views.EditProductPage.loading")}</p>
       </PageLayout>
     )
   }
@@ -19,16 +21,16 @@ export function EditProductPage({ productId }: { productId: string }) {
   if (!product) {
     return (
       <PageLayout>
-        <p className="text-muted-foreground">Produit introuvable</p>
+        <p className="text-muted-foreground">{t("features.products.views.EditProductPage.notFound")}</p>
       </PageLayout>
     )
   }
 
   return (
     <ProductForm
-      title="Modifier le produit"
-      submitLabel="Sauvegarder"
-      submittingLabel="Sauvegarde..."
+      title={t("features.products.views.EditProductPage.title")}
+      submitLabel={t("features.products.views.EditProductPage.submit")}
+      submittingLabel={t("features.products.views.EditProductPage.submitting")}
       isPending={updateProduct.isPending}
       onSubmit={(payload) => updateProduct.mutate(payload)}
       defaultValues={{
@@ -42,7 +44,7 @@ export function EditProductPage({ productId }: { productId: string }) {
           params={{ productId }}
           className="text-sm text-muted-foreground underline-offset-4 hover:underline"
         >
-          Annuler
+          {t("features.products.views.EditProductPage.cancel")}
         </Link>
       }
     />

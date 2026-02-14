@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { Link, useNavigate } from "@tanstack/react-router"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
@@ -36,6 +37,7 @@ import { CardContent, CardFooter } from "@/components/ui/card"
 import { PageLayout } from "@/components/PageLayout"
 
 export function ProductDetailPage({ productId }: { productId: string }) {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { data: product, isLoading } = useProduct(productId)
   const deleteProduct = useDeleteProduct()
@@ -48,7 +50,7 @@ export function ProductDetailPage({ productId }: { productId: string }) {
   if (isLoading) {
     return (
       <PageLayout>
-        <p className="text-muted-foreground">Chargement...</p>
+        <p className="text-muted-foreground">{t("features.products.views.ProductDetailPage.loading")}</p>
       </PageLayout>
     )
   }
@@ -56,7 +58,7 @@ export function ProductDetailPage({ productId }: { productId: string }) {
   if (!product) {
     return (
       <PageLayout>
-        <p className="text-muted-foreground">Produit introuvable</p>
+        <p className="text-muted-foreground">{t("features.products.views.ProductDetailPage.notFound")}</p>
       </PageLayout>
     )
   }
@@ -66,7 +68,7 @@ export function ProductDetailPage({ productId }: { productId: string }) {
       <CardContent className="flex flex-col gap-4">
         {product.isRecipe && (
           <p className="text-center text-sm italic text-muted-foreground">
-            Plat personnel
+            {t("features.products.views.ProductDetailPage.personalDish")}
           </p>
         )}
         {product.description && (
@@ -76,7 +78,7 @@ export function ProductDetailPage({ productId }: { productId: string }) {
           />
         )}
         <div className="flex items-center justify-between text-sm">
-          <span className="text-muted-foreground">Calories</span>
+          <span className="text-muted-foreground">{t("features.products.views.ProductDetailPage.calories")}</span>
           <span className="font-medium">{product.kcal} kcal</span>
         </div>
       </CardContent>
@@ -89,7 +91,7 @@ export function ProductDetailPage({ productId }: { productId: string }) {
               className="w-full"
             >
               <Button variant="outline" className="w-full">
-                Modifier
+                {t("features.products.views.ProductDetailPage.edit")}
               </Button>
             </Link>
             <Link
@@ -102,7 +104,7 @@ export function ProductDetailPage({ productId }: { productId: string }) {
               className="w-full"
             >
               <Button variant="outline" className="w-full">
-                Dupliquer
+                {t("features.products.views.ProductDetailPage.duplicate")}
               </Button>
             </Link>
           </>
@@ -114,28 +116,28 @@ export function ProductDetailPage({ productId }: { productId: string }) {
             setIsAddOpen(true)
           }}
         >
-          Ajouter à la consommation
+          {t("features.products.views.ProductDetailPage.addToConsumption")}
         </Button>
         <Button
           variant="destructive"
           className="w-full"
           onClick={() => setIsDeleteOpen(true)}
         >
-          Supprimer
+          {t("features.products.views.ProductDetailPage.delete")}
         </Button>
         <Link
           to="/"
           className="text-sm text-muted-foreground underline-offset-4 hover:underline"
         >
-          Retour à l'accueil
+          {t("features.products.views.ProductDetailPage.backToHome")}
         </Link>
       </CardFooter>
       <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Ajouter à la consommation</DialogTitle>
+            <DialogTitle>{t("features.products.views.ProductDetailPage.addToConsumption")}</DialogTitle>
             <DialogDescription>
-              Choisissez la date de consommation.
+              {t("features.products.views.ProductDetailPage.chooseDate")}
             </DialogDescription>
           </DialogHeader>
           <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
@@ -150,7 +152,7 @@ export function ProductDetailPage({ productId }: { productId: string }) {
                 <CalendarIcon className="mr-2 h-4 w-4" />
                 {selectedDate
                   ? format(selectedDate, "PPP", { locale: fr })
-                  : "Choisir une date"}
+                  : t("features.products.views.ProductDetailPage.pickDate")}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
@@ -167,7 +169,7 @@ export function ProductDetailPage({ productId }: { productId: string }) {
           </Popover>
           <DialogFooter className="gap-2 sm:gap-0">
             <Button variant="outline" onClick={() => setIsAddOpen(false)}>
-              Annuler
+              {t("features.products.views.ProductDetailPage.cancel")}
             </Button>
             <Button
               disabled={!selectedDate || createConsumedProduct.isPending}
@@ -180,7 +182,7 @@ export function ProductDetailPage({ productId }: { productId: string }) {
                 }
               }}
             >
-              {createConsumedProduct.isPending ? "Ajout..." : "Confirmer"}
+              {createConsumedProduct.isPending ? t("features.products.views.ProductDetailPage.adding") : t("features.products.views.ProductDetailPage.confirm")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -188,13 +190,13 @@ export function ProductDetailPage({ productId }: { productId: string }) {
       <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Supprimer le produit</AlertDialogTitle>
+            <AlertDialogTitle>{t("features.products.views.ProductDetailPage.deleteTitle")}</AlertDialogTitle>
             <AlertDialogDescription>
-              Cette action est irréversible. Voulez-vous vraiment supprimer ce produit ?
+              {t("features.products.views.ProductDetailPage.deleteDescription")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogCancel>{t("features.products.views.ProductDetailPage.cancel")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={() =>
                 deleteProduct.mutate(product.id, {
@@ -202,7 +204,7 @@ export function ProductDetailPage({ productId }: { productId: string }) {
                 })
               }
             >
-              Supprimer
+              {t("features.products.views.ProductDetailPage.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
