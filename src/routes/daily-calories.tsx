@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router"
-import { DailyCaloriesPage } from "@/features/auth/views/DailyCaloriesPage"
+import { DailyCaloriesPage } from "@/features/account/views/DailyCaloriesPage"
 
 export const Route = createFileRoute("/daily-calories")({
   beforeLoad: () => {

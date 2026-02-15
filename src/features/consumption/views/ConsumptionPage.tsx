@@ -6,7 +6,7 @@ import { fr } from "date-fns/locale"
 import { CalendarIcon, ChevronLeft, ChevronRight, Sparkles, Trash2 } from "lucide-react"
 import { useConsumedProducts } from "@/features/consumption/api/useConsumedProducts"
 import { useDeleteConsumedProduct } from "@/features/consumption/api/useDeleteConsumedProduct"
-import { useUser } from "@/features/auth/api/useAuth"
+import { useUser } from "@/features/account/api/useAuth"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -26,7 +26,9 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { CardContent, CardFooter } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import { PageLayout } from "@/components/PageLayout"
+import { ScanProductDialog } from "@/features/products/components/ScanProductDialog"
 
 import servingDishImage from "@/assets/serving-dish.png"
 
@@ -90,9 +92,14 @@ export function ConsumptionPage() {
         </div>
 
         {isLoading && (
-          <p className="text-center text-sm text-muted-foreground">
-            {t("features.consumption.views.ConsumptionPage.loading")}
-          </p>
+          <ul className="divide-y">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <li key={i} className="flex items-center gap-2 px-2 py-2">
+                <Skeleton className="h-4 flex-1" />
+                <Skeleton className="h-4 w-16" />
+              </li>
+            ))}
+          </ul>
         )}
 
         {consumedProducts && consumedProducts.length > 0 && (
@@ -160,6 +167,7 @@ export function ConsumptionPage() {
         )}
       </CardContent>
       <CardFooter className="flex flex-col gap-2">
+        <ScanProductDialog className="w-full" />
         <Link to="/recipe-generator" className="w-full">
           <Button variant="outline" className="w-full"><Sparkles className="h-4 w-4" />{t("features.consumption.views.ConsumptionPage.createRecipe")}</Button>
         </Link>

@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"
-import { useUser } from "@/features/auth/api/useAuth"
+import { useUser } from "@/features/account/api/useAuth"
 import { useConsumedProducts } from "@/features/consumption/api/useConsumedProducts"
 import { cn } from "@/lib/utils"
 import { CardContent } from "@/components/ui/card"
@@ -7,9 +7,11 @@ import { PageLayout } from "@/components/PageLayout"
 import { Link } from "@tanstack/react-router"
 import { ChevronRight } from "lucide-react"
 import { ScanProductDialog } from "@/features/products/components/ScanProductDialog"
+import { PictureProductDialog } from "../components/PictureProductDialog"
 
 import chefImage from "@/assets/chef.png"
 import scanImage from "@/assets/scan.png"
+import foodPhotoImage from "@/assets/food-photo.png"
 
 export function HomePage() {
   const { t } = useTranslation()
@@ -86,6 +88,16 @@ export function HomePage() {
             <p className="text-sm text-muted-foreground">{t("features.products.views.HomePage.recipePromo")}</p>
           </button>
         </Link>
+        <PictureProductDialog>
+          <button className="w-full rounded-md border-neutral-foreground border p-4 grid grid-cols-2 items-center justify-between">
+            <p className="text-sm text-muted-foreground">{t("features.products.views.HomePage.foodPhotoPromo")}</p>
+            <img
+              src={foodPhotoImage}
+              alt="Scan"
+              className="mx-auto w-30 h-30"
+            />
+          </button>
+        </PictureProductDialog>
       </CardContent>
     </PageLayout>
   )

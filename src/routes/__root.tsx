@@ -7,7 +7,7 @@ import {
   useInstallPromptProvider,
 } from "@/hooks/use-install-prompt"
 import { InstallPromptModal } from "@/components/InstallPromptModal"
-import { useUser } from "@/features/auth/api/useAuth"
+import { useUser } from "@/features/account/api/useAuth"
 
 const queryClient = new QueryClient()
 

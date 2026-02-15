@@ -17,7 +17,8 @@ import {
 } from "@/components/ui/dialog"
 import { useGenerateRecipe } from "@/features/recipes/api/useGenerateRecipe"
 import { useCreateProduct } from "@/features/products/api/useCreateProduct"
-import { useUser } from "@/features/auth/api/useAuth"
+import { Loader2 } from "lucide-react"
+import { useUser } from "@/features/account/api/useAuth"
 import { useConsumedProducts } from "@/features/consumption/api/useConsumedProducts"
 import { ProductViewer } from "@/features/products/components/ProductViewer"
 
@@ -145,6 +146,7 @@ export function RecipeGeneratorPage() {
             className="w-full"
             disabled={generateRecipe.isPending}
           >
+            {generateRecipe.isPending && <Loader2 className="animate-spin" />}
             {generateRecipe.isPending
               ? t(
                   "features.recipes.views.RecipeGeneratorPage.submitting",

@@ -5,7 +5,7 @@
       "consumption": "Consommation",
       "products": "Produits",
       "recipes": "Mes recettes",
-      "goal": "Objectif",
+      "goal": "Objectif et suivi",
       "recipeGenerator": "Générateur de recette",
       "install": "Installer",
       "logout": "Déconnexion",
@@ -120,13 +120,13 @@
           "caloriesExceeded": "Objectif calorique dépassé",
           "recipePromo": "Faites créer une recette sur mesure par notre chef IA",
           "scanPromo": "Scannez un produit pour l'ajouter à votre menu",
+          "foodPhotoPromo": "Prenez une photo d'un plat pour estimer ses calories",
           "locale": "fr-FR",
           "manageConsumption": "Gérer votre consommation du jour"
         },
         "ProductsPage": {
           "title": "Mes produits",
           "searchPlaceholder": "Rechercher un produit...",
-          "loading": "Chargement...",
           "empty": "Aucun produit",
           "loadingMore": "Chargement...",
           "loadMore": "Voir plus",
@@ -209,11 +209,10 @@
     "consumption": {
       "views": {
         "ConsumptionPage": {
-          "loading": "Chargement...",
           "empty": "Aucune consommation pour cette date",
           "total": "Total",
           "kcal": "kcal",
-          "add": "Ajouter",
+          "add": "Ma liste de produits",
           "createRecipe": "Générer une recette adaptée",
           "deleteTitle": "Supprimer la consommation",
           "deleteDescription": "Voulez-vous vraiment supprimer cette consommation ?",

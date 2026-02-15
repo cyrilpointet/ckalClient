@@ -10,6 +10,7 @@ import { PageLayout } from "@/components/PageLayout"
 import { ScanProductDialog } from "@/features/products/components/ScanProductDialog"
 import { PictureProductDialog } from "@/features/products/components/PictureProductDialog"
 import { Star } from "lucide-react"
+import { Skeleton } from "@/components/ui/skeleton"
 
 import nutritionPlanImage from "@/assets/nutrition-plan.png"
 
@@ -39,9 +40,14 @@ export function ProductsPage() {
         />
 
         {isLoading && (
-          <p className="text-center text-sm text-muted-foreground">
-            {t("features.products.views.ProductsPage.loading")}
-          </p>
+          <ul className="divide-y">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <li key={i} className="flex items-center gap-2 px-2 py-2">
+                <Skeleton className="h-4 flex-1" />
+                <Skeleton className="h-4 w-16" />
+              </li>
+            ))}
+          </ul>
         )}
 
         {allProducts.length > 0 && (

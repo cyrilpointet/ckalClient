@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next"
 import { Link, useNavigate } from "@tanstack/react-router"
 import { useProduct } from "@/features/products/api/useProduct"
 import { useDeleteProduct } from "@/features/products/api/useDeleteProduct"
-import { Plus } from "lucide-react"
+import { Plus, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   AlertDialog,
@@ -56,7 +56,8 @@ export function ProductDetailPage({ productId }: { productId: string }) {
       </Button>
       <CardContent className="flex flex-col gap-4">
         {product.isRecipe && (
-          <p className="text-center text-sm italic text-muted-foreground">
+          <p className="flex items-center justify-center gap-1 text-center text-sm italic text-muted-foreground">
+            <Star className="h-4 w-4 text-yellow-500" />
             {t("features.products.views.ProductDetailPage.personalDish")}
           </p>
         )}

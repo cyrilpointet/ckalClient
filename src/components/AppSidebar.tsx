@@ -1,4 +1,4 @@
-import { Home, List, Target, UtensilsCrossed, Download, CookingPot, Sparkles, LogOut } from "lucide-react"
+import { Home, Target, UtensilsCrossed, Download, CookingPot, Sparkles, LogOut } from "lucide-react"
 import { Link, useLocation } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import {
@@ -13,14 +13,14 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar"
 import { useInstallPrompt } from "@/hooks/use-install-prompt"
-import { useLogout } from "@/features/auth/api/useAuth"
+import { useLogout } from "@/features/account/api/useAuth"
 
 const navItems = [
   { titleKey: "components.AppSidebar.home", to: "/", icon: Home },
   { titleKey: "components.AppSidebar.consumption", to: "/consumption", icon: UtensilsCrossed },
   { titleKey: "components.AppSidebar.recipeGenerator", to: "/recipe-generator", icon: Sparkles },
   { titleKey: "components.AppSidebar.recipes", to: "/recipes", icon: CookingPot },
-  { titleKey: "components.AppSidebar.products", to: "/products", icon: List },
+  // { titleKey: "components.AppSidebar.products", to: "/products", icon: List },
   { titleKey: "components.AppSidebar.goal", to: "/daily-calories", icon: Target },
 ] as const
 
