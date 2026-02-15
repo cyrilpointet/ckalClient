@@ -70,6 +70,15 @@
         }
       },
       "components": {
+        "WeightTracker": {
+          "weightHeading": "Suivi du poids",
+          "lastWeight": "{{value}} kg le {{date}}",
+          "noWeight": "Poids non renseigné",
+          "weightKg": "Poids (kg)",
+          "week": "Semaine",
+          "month": "Mois",
+          "quarter": "Trimestre"
+        },
         "AddWeightDialog": {
           "title": "Renseigner mon poids",
           "description": "Indiquez votre poids et la date de pesée",
