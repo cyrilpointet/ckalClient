@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { PageLayout } from "@/components/PageLayout"
 import { ScanProductDialog } from "@/features/products/components/ScanProductDialog"
+import { PictureProductDialog } from "@/features/products/components/PictureProductDialog"
 import { Star } from "lucide-react"
 
 import nutritionPlanImage from "@/assets/nutrition-plan.png"
@@ -56,13 +57,13 @@ export function ProductsPage() {
                         params: { productId: product.id },
                       })
                     }
-                    className="flex flex-1 items-center justify-between rounded px-2 py-2 text-left transition-colors hover:bg-accent"
+                    className="flex flex-1 items-center gap-2 rounded px-2 py-2 text-left transition-colors hover:bg-accent min-w-0"
                   >
-                    <span className="flex items-center gap-1 text-sm">
-                      {product.name}
-                      {product.isRecipe && <Star className="h-3 w-3 text-yellow-500" />}
+                    <span className="flex items-center gap-1 text-sm min-w-0 flex-1">
+                      <span className="truncate">{product.name}</span>
+                      {product.isRecipe && <Star className="h-[1em] w-[1em] shrink-0 text-yellow-500" />}
                     </span>
-                    <span className="text-sm font-medium">
+                    <span className="text-sm font-medium whitespace-nowrap ml-auto">
                       {product.kcal} kcal
                     </span>
                   </button>
@@ -71,8 +72,8 @@ export function ProductsPage() {
             </ul>
             {hasNextPage && (
               <Button
-                variant="ghost"
-                className="w-full"
+                variant="outline"
+                className="mx-auto"
                 disabled={isFetchingNextPage}
                 onClick={() => fetchNextPage()}
               >
@@ -96,8 +97,9 @@ export function ProductsPage() {
         )}
       </CardContent>
 
-      <CardFooter className="gap-2">
-        <ScanProductDialog />
+      <CardFooter className="gap-2 flex flex-col">
+        <ScanProductDialog className="w-full" />
+        <PictureProductDialog className="w-full" />
 
         <Link to="/products/new" className="w-full">
           <Button className="w-full">{t("features.products.views.ProductsPage.add")}</Button>

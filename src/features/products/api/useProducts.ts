@@ -7,7 +7,7 @@ interface ProductsResponse {
   totalCount: number
 }
 
-export const PRODUCTS_TAKE = 5
+export const PRODUCTS_TAKE = 10
 
 export function useProducts(name?: string) {
   return useInfiniteQuery({

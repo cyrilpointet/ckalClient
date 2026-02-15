@@ -34,8 +34,7 @@ const quantityRequiredMessage = i18n.t(
 const addConsumptionSchema = z.object({
   quantity: z
     .number({ error: quantityRequiredMessage })
-    .int(quantityRequiredMessage)
-    .min(1, quantityRequiredMessage),
+    .positive(quantityRequiredMessage),
 })
 
 type AddConsumptionForm = z.infer<typeof addConsumptionSchema>
@@ -69,11 +68,16 @@ export function AddConsumptionDialog({
   const handleOpenChange = (value: boolean) => {
     if (!value) {
       reset()
-      setSelectedDate(undefined)
-    } else {
-      setSelectedDate(new Date())
     }
     onOpenChange(value)
+  }
+
+  // Reset date to today each time the dialog opens
+  if (open && !selectedDate) {
+    setSelectedDate(new Date())
+  }
+  if (!open && selectedDate) {
+    setSelectedDate(undefined)
   }
 
   const onSubmit = (data: AddConsumptionForm) => {
@@ -143,6 +147,7 @@ export function AddConsumptionDialog({
               <Input
                 id="quantity"
                 type="number"
+                step="any"
                 {...register("quantity", { valueAsNumber: true })}
               />
               {errors.quantity && (

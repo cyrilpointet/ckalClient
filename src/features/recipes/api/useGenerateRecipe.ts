@@ -13,7 +13,7 @@ interface GenerateRecipeInput {
 export interface GenerateRecipeResponse {
   name: string
   description: string
-  kCal: number
+  total_calories: number
 }
 
 export function useGenerateRecipe() {

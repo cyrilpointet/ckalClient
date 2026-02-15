@@ -42,7 +42,7 @@ export function RecipeGeneratorPage() {
   const createProduct = useCreateProduct()
 
   const totalKcal =
-    consumedProducts?.reduce((sum, p) => sum + p.product.kcal * p.quantity, 0) ?? 0
+    Math.round(consumedProducts?.reduce((sum, p) => sum + p.product.kcal * p.quantity, 0) ?? 0)
   const remainingKcal = user?.dailyCalories != null
     ? Math.max(0, user.dailyCalories - totalKcal)
     : undefined
@@ -77,7 +77,7 @@ export function RecipeGeneratorPage() {
     createProduct.mutate({
       name: generateRecipe.data.name,
       description: generateRecipe.data.description || null,
-      kcal: generateRecipe.data.kCal,
+      kcal: generateRecipe.data.total_calories,
       isRecipe: true,
     })
   }
@@ -177,7 +177,7 @@ export function RecipeGeneratorPage() {
             <ProductViewer
               name={generateRecipe.data.name}
               description={generateRecipe.data.description}
-              kcal={generateRecipe.data.kCal}
+              kcal={generateRecipe.data.total_calories}
             />
           )}
           <DialogFooter className="gap-2 sm:gap-0">

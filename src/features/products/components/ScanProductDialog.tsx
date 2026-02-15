@@ -23,7 +23,12 @@ interface OffProduct {
   kcal: number
 }
 
-export function ScanProductDialog() {
+interface ScanProductDialogProps {
+  children?: React.ReactNode
+  className?: string
+}
+
+export function ScanProductDialog({ children, className }: ScanProductDialogProps) {
   const { t } = useTranslation()
   const [isScanOpen, setIsScanOpen] = useState(false)
   const createProduct = useCreateProduct()
@@ -56,16 +61,20 @@ export function ScanProductDialog() {
   return (
     <Dialog open={isScanOpen} onOpenChange={setIsScanOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" disabled={isPending}>
-          {isPending ? (
-            <LoaderCircleIcon className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <ScanBarcode className="mr-2 h-4 w-4" />
-          )}
-          {isPending
-            ? t("features.products.components.ScanProductDialog.scanning")
-            : t("features.products.components.ScanProductDialog.scan")}
-        </Button>
+        {children ?? (
+          <div className={className}>
+            <Button variant="outline" disabled={isPending} className="w-full">
+              {isPending ? (
+                <LoaderCircleIcon className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <ScanBarcode className="mr-2 h-4 w-4" />
+              )}
+              {isPending
+                ? t("features.products.components.ScanProductDialog.scanning")
+                : t("features.products.components.ScanProductDialog.scan")}
+            </Button>
+          </div>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

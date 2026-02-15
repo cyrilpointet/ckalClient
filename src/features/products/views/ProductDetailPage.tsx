@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next"
 import { Link, useNavigate } from "@tanstack/react-router"
 import { useProduct } from "@/features/products/api/useProduct"
 import { useDeleteProduct } from "@/features/products/api/useDeleteProduct"
+import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   AlertDialog,
@@ -45,6 +46,14 @@ export function ProductDetailPage({ productId }: { productId: string }) {
 
   return (
     <PageLayout title={product.name}>
+      <Button
+        size="icon"
+        variant="outline"
+        onClick={() => setIsAddOpen(true)}
+        className="fixed top-1.5 right-4 z-50 size-9 rounded-full md:hidden"
+      >
+        <Plus />
+      </Button>
       <CardContent className="flex flex-col gap-4">
         {product.isRecipe && (
           <p className="text-center text-sm italic text-muted-foreground">

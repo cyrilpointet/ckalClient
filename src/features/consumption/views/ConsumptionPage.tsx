@@ -40,7 +40,7 @@ export function ConsumptionPage() {
   const deleteConsumedProduct = useDeleteConsumedProduct()
 
   const totalKcal =
-    consumedProducts?.reduce((sum, p) => sum + p.product.kcal * p.quantity, 0) ?? 0
+    Math.round(consumedProducts?.reduce((sum, p) => sum + p.product.kcal * p.quantity, 0) ?? 0)
   const dailyCalories = user?.dailyCalories ?? null
   const isOver = dailyCalories !== null && totalKcal > dailyCalories
 
@@ -77,7 +77,6 @@ export function ConsumptionPage() {
                     setIsCalendarOpen(false)
                   }
                 }}
-                initialFocus
               />
             </PopoverContent>
           </Popover>
@@ -107,16 +106,16 @@ export function ConsumptionPage() {
                   <Link
                     to="/products/$productId"
                     params={{ productId: product.productId }}
-                    className="flex flex-1 items-center justify-between rounded px-2 py-2 transition-colors hover:bg-accent"
+                    className="flex flex-1 items-center gap-2 rounded px-2 py-2 transition-colors hover:bg-accent min-w-0"
                   >
-                    <span>
-                      {product.product.name}
+                    <span className="flex items-center flex-1 min-w-0">
+                      <span className="truncate">{product.product.name}</span>
                       {product.quantity > 1 && (
-                        <span className="text-muted-foreground"> x{product.quantity}</span>
+                        <span className="text-muted-foreground whitespace-nowrap shrink-0"> x{product.quantity}</span>
                       )}
                     </span>
-                    <span className="font-medium">
-                      {product.product.kcal * product.quantity} kcal
+                    <span className="font-medium whitespace-nowrap ml-auto">
+                      {Math.round(product.product.kcal * product.quantity)} kcal
                     </span>
                   </Link>
                   <button

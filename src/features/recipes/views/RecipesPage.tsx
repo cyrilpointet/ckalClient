@@ -57,8 +57,8 @@ export function RecipesPage() {
                     }
                     className="flex w-full items-center justify-between rounded px-2 py-2 text-left transition-colors hover:bg-accent"
                   >
-                    <span className="text-sm">{recipe.name}</span>
-                    <span className="text-sm font-medium">
+                    <span className="min-w-0 truncate text-sm">{recipe.name}</span>
+                    <span className="shrink-0 text-sm font-medium ml-2">
                       {recipe.kcal} kcal
                     </span>
                   </button>
