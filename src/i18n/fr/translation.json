@@ -55,13 +55,35 @@
           "error": "Erreur lors de l'inscription"
         },
         "DailyCaloriesPage": {
-          "title": "Objectif calorique",
+          "title": "Objectif et suivi",
+          "heading": "Objectif calorique quotidien",
           "label": "Calories par jour (kcal)",
           "mustBeInteger": "Doit être un entier",
           "mustBePositive": "Doit être supérieur à 0",
           "submitting": "Enregistrement...",
           "submit": "Enregistrer",
-          "error": "Erreur lors de la mise à jour"
+          "error": "Erreur lors de la mise à jour",
+          "weightHeading": "Suivi du poids",
+          "lastWeight": "{{value}} kg le {{date}}",
+          "noWeight": "Poids non renseigné",
+          "addWeight": "Renseigner mon poids"
+        }
+      },
+      "components": {
+        "AddWeightDialog": {
+          "title": "Renseigner mon poids",
+          "description": "Indiquez votre poids et la date de pesée",
+          "weight": "Poids (kg)",
+          "weightRequired": "Le poids est requis",
+          "pickDate": "Choisir une date",
+          "cancel": "Annuler",
+          "confirm": "Enregistrer",
+          "adding": "Enregistrement..."
+        }
+      },
+      "api": {
+        "useCreateWeight": {
+          "error": "Erreur lors de l'enregistrement du poids"
         }
       }
     },
