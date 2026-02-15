@@ -21,6 +21,8 @@ import { useUser } from "@/features/auth/api/useAuth"
 import { useConsumedProducts } from "@/features/consumption/api/useConsumedProducts"
 import { ProductViewer } from "@/features/products/components/ProductViewer"
 
+import chefImage from "@/assets/chef.png"
+
 const recipeGeneratorSchema = z.object({
   description: z.string(),
   ingredients: z.string(),
@@ -84,8 +86,12 @@ export function RecipeGeneratorPage() {
     <PageLayout
       title={t("features.recipes.views.RecipeGeneratorPage.title")}
     >
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardContent className="space-y-4 pb-6">
+          <p className="text-center text-sm text-muted-foreground">
+            {t("features.recipes.views.RecipeGeneratorPage.subtitle")}
+          </p>
           <div className="space-y-2">
             <Label htmlFor="description">
               {t(
@@ -147,6 +153,11 @@ export function RecipeGeneratorPage() {
                   "features.recipes.views.RecipeGeneratorPage.submit",
                 )}
           </Button>
+             <img
+              src={chefImage}
+              alt="Empty"
+              className="mx-auto mb-4 h-48 w-48"
+            />
         </CardFooter>
       </form>
 

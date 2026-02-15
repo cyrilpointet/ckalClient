@@ -1,26 +1,16 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useNavigate } from "@tanstack/react-router"
-import { useMutation } from "@tanstack/react-query"
 import { useProducts } from "@/features/products/api/useProducts"
-import { useCreateProduct } from "@/features/products/api/useCreateProduct"
 import { useDebouncedValue } from "@/hooks/useDebouncedValue"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { PageLayout } from "@/components/PageLayout"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { BarcodeScanner } from "../components/BarcodeScanner"
-import { LoaderCircleIcon, Scan, Star } from "lucide-react"
-import { toast } from "sonner"
-import apiClient from "@/lib/axios"
+import { ScanProductDialog } from "@/features/products/components/ScanProductDialog"
+import { Star } from "lucide-react"
 
-interface OffProduct {
-  name: string
-  description: string
-  weight: number
-  kcal: number
-}
+import nutritionPlanImage from "@/assets/nutrition-plan.png"
 
 export function ProductsPage() {
   const { t } = useTranslation()
@@ -35,29 +25,6 @@ export function ProductsPage() {
     fetchNextPage,
     isFetchingNextPage,
   } = useProducts(nameFilter)
-  const [isScanOpen, setIsScanOpen] = useState(false)
-  const createProduct = useCreateProduct()
-
-  const scanMutation = useMutation({
-    mutationFn: (code: string) =>
-      apiClient.get<OffProduct>(`/off/${code}`).then((r) => r.data),
-    onSuccess: (data) => {
-      createProduct.mutate({
-        name: data.name,
-        description: data.description || null,
-        kcal: data.kcal,
-        isRecipe: false,
-      })
-    },
-    onError: () => {
-      toast.error(t("features.products.views.ProductsPage.scanError"))
-    },
-  })
-
-  const handleScan = (code: string) => {
-    setIsScanOpen(false)
-    scanMutation.mutate(code)
-  }
 
   const allProducts = data?.pages.flatMap((page) => page.data) ?? []
 
@@ -116,34 +83,24 @@ export function ProductsPage() {
         )}
 
         {allProducts.length === 0 && !isLoading && (
-          <p className="text-center text-sm text-muted-foreground">
-            {t("features.products.views.ProductsPage.empty")}
-          </p>
+          <div>
+            <img
+              src={nutritionPlanImage}
+              alt="Empty"
+              className="mx-auto mb-4 h-48 w-48"
+            />
+            <p className="text-center text-sm text-muted-foreground">
+              {t("features.products.views.ProductsPage.empty")}
+            </p>
+          </div>
         )}
       </CardContent>
 
       <CardFooter className="gap-2">
-        <Dialog open={isScanOpen} onOpenChange={setIsScanOpen}>
-          <DialogTrigger asChild>
-            <Button variant="outline" disabled={scanMutation.isPending || createProduct.isPending}>
-              {scanMutation.isPending || createProduct.isPending ? (
-                <LoaderCircleIcon className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <Scan className="mr-2 h-4 w-4" />
-              )}
-              {scanMutation.isPending || createProduct.isPending ? t("features.products.views.ProductsPage.scanning") : t("features.products.views.ProductsPage.scan")}
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-              <DialogTitle>{t("features.products.views.ProductsPage.scan")}</DialogTitle>
-            </DialogHeader>
-            <BarcodeScanner onScan={handleScan} />
-          </DialogContent>
-        </Dialog>
+        <ScanProductDialog />
 
         <Link to="/products/new" className="w-full">
-          <Button className="w-full" disabled={scanMutation.isPending || createProduct.isPending}>{t("features.products.views.ProductsPage.add")}</Button>
+          <Button className="w-full">{t("features.products.views.ProductsPage.add")}</Button>
         </Link>
       </CardFooter>
     </PageLayout>

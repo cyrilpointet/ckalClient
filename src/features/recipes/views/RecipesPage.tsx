@@ -1,12 +1,15 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useNavigate } from "@tanstack/react-router"
-import { useRecipes } from "@/features/products/api/useRecipes"
+import { useRecipes } from "@/features/recipes/api/useRecipes"
 import { useDebouncedValue } from "@/hooks/useDebouncedValue"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { PageLayout } from "@/components/PageLayout"
+import { Sparkles } from "lucide-react"
+
+import recipeBookImage from "@/assets/recipe-book.png"
 
 export function RecipesPage() {
   const { t } = useTranslation()
@@ -25,17 +28,17 @@ export function RecipesPage() {
   const allRecipes = data?.pages.flatMap((page) => page.data) ?? []
 
   return (
-    <PageLayout title={t("features.products.views.RecipesPage.title")}>
+    <PageLayout title={t("features.recipes.views.RecipesPage.title")}>
       <CardContent className="flex flex-col gap-4">
         <Input
-          placeholder={t("features.products.views.RecipesPage.searchPlaceholder")}
+          placeholder={t("features.recipes.views.RecipesPage.searchPlaceholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
 
         {isLoading && (
           <p className="text-center text-sm text-muted-foreground">
-            {t("features.products.views.RecipesPage.loading")}
+            {t("features.recipes.views.RecipesPage.loading")}
           </p>
         )}
 
@@ -70,24 +73,37 @@ export function RecipesPage() {
                 onClick={() => fetchNextPage()}
               >
                 {isFetchingNextPage
-                  ? t("features.products.views.RecipesPage.loadingMore")
-                  : t("features.products.views.RecipesPage.loadMore")}
+                  ? t("features.recipes.views.RecipesPage.loadingMore")
+                  : t("features.recipes.views.RecipesPage.loadMore")}
               </Button>
             )}
           </>
         )}
 
         {allRecipes.length === 0 && !isLoading && (
-          <p className="text-center text-sm text-muted-foreground">
-            {t("features.products.views.RecipesPage.empty")}
-          </p>
+          <div>
+            <img
+              src={recipeBookImage}
+              alt="Empty"
+              className="mx-auto mb-4 h-48 w-48"
+            />
+            <p className="text-center text-sm text-muted-foreground">
+              {t("features.recipes.views.RecipesPage.empty")}
+            </p>
+          </div>
         )}
       </CardContent>
 
-      <CardFooter>
+      <CardFooter className="flex flex-col gap-2">
+        <Link to="/recipe-generator" className="w-full">
+          <Button variant="secondary" className="w-full">
+            <Sparkles className="h-4 w-4" />
+            {t("features.recipes.views.RecipesPage.generate")}
+          </Button>
+        </Link>
         <Link to="/products/new" className="w-full">
           <Button className="w-full">
-            {t("features.products.views.RecipesPage.add")}
+            {t("features.recipes.views.RecipesPage.add")}
           </Button>
         </Link>
       </CardFooter>

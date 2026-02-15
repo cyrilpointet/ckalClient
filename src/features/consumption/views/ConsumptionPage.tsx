@@ -28,6 +28,8 @@ import {
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { PageLayout } from "@/components/PageLayout"
 
+import servingDishImage from "@/assets/serving-dish.png"
+
 export function ConsumptionPage() {
   const { t } = useTranslation()
   const [date, setDate] = useState<Date>(new Date())
@@ -146,9 +148,16 @@ export function ConsumptionPage() {
         )}
 
         {consumedProducts && consumedProducts.length === 0 && !isLoading && (
-          <p className="text-center text-sm text-muted-foreground">
-            {t("features.consumption.views.ConsumptionPage.empty")}
-          </p>
+          <div>
+            <img
+              src={servingDishImage}
+              alt="Empty"
+              className="mx-auto mb-4 h-48 w-48"
+            />
+            <p className="text-center text-sm text-muted-foreground">
+              {t("features.consumption.views.ConsumptionPage.empty")}
+            </p>
+          </div>
         )}
       </CardContent>
       <CardFooter className="flex flex-col gap-2">

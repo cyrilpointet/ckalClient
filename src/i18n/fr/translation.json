@@ -82,6 +82,13 @@
           "adding": "Ajout...",
           "confirm": "Confirmer"
         },
+        "ScanProductDialog": {
+          "title": "Recherche d'informations",
+          "scanning": "Recherche...",
+          "scan": "Scanner un produit",
+          "description": "Scannez le code barre d'un produit",
+          "scanError": "Impossible de récupérer les informations du produit"
+        },
         "ProductForm": {
           "name": "Nom",
           "namePlaceholder": "Nom du produit",
@@ -108,10 +115,7 @@
           "empty": "Aucun produit",
           "loadingMore": "Chargement...",
           "loadMore": "Voir plus",
-          "scanning": "Recherche...",
-          "scan": "Scanner un produit",
-          "add": "Ajouter un produit",
-          "scanError": "Impossible de récupérer les informations du produit"
+          "add": "Ajouter un produit"
         },
         "NewProductPage": {
           "title": "Nouveau produit",
@@ -126,15 +130,6 @@
           "submitting": "Sauvegarde...",
           "cancel": "Annuler"
         },
-        "RecipesPage": {
-          "title": "Mes recettes",
-          "searchPlaceholder": "Rechercher une recette...",
-          "loading": "Chargement...",
-          "empty": "Aucune recette",
-          "loadingMore": "Chargement...",
-          "loadMore": "Voir plus",
-          "add": "Ajouter une recette"
-        },
         "ProductDetailPage": {
           "loading": "Chargement...",
           "notFound": "Produit introuvable",
@@ -144,7 +139,8 @@
           "addToConsumption": "Ajouter à la consommation",
           "deleteTitle": "Supprimer le produit",
           "deleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer ce produit ?",
-          "delete": "Supprimer"
+          "delete": "Supprimer",
+          "cancel": "Annuler"
         }
       },
       "api": {
@@ -161,8 +157,19 @@
     },
     "recipes": {
       "views": {
+        "RecipesPage": {
+          "title": "Mes recettes",
+          "searchPlaceholder": "Rechercher une recette...",
+          "loading": "Chargement...",
+          "empty": "Aucune recette",
+          "loadingMore": "Chargement...",
+          "loadMore": "Voir plus",
+          "add": "Ajouter une recette",
+          "generate": "Générer une recette"
+        },
         "RecipeGeneratorPage": {
           "title": "Générateur de recette",
+          "subtitle": "Une envie ? Des ingrédients ? Notre chef créera une nouvelle recette pour vous !",
           "description": "Description",
           "descriptionPlaceholder": "Ex: Un plat léger pour le soir",
           "ingredients": "Ingrédients",
