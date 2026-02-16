@@ -77,7 +77,9 @@
           "weightKg": "Poids (kg)",
           "week": "Semaine",
           "month": "Mois",
-          "quarter": "Trimestre"
+          "quarter": "Trimestre",
+          "showCalories": "Afficher les calories",
+          "kcal": "kcal"
         },
         "AddWeightDialog": {
           "title": "Renseigner mon poids",
@@ -149,7 +151,7 @@
           "welcomeUser": "Bienvenue, {{username}} !",
           "kcal": "kcal",
           "caloriesExceeded": "Objectif calorique dépassé",
-          "recipePromo": "Faites créer une recette sur mesure par notre chef IA",
+          "recipePromo": "Créez une recette sur mesure avec notre chef IA",
           "scanPromo": "Scannez un produit pour l'ajouter à votre menu",
           "foodPhotoPromo": "Prenez une photo d'un plat pour estimer ses calories",
           "locale": "fr-FR",

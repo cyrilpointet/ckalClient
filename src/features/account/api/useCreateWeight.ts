@@ -16,7 +16,7 @@ export function useCreateWeight() {
     mutationFn: (input: CreateWeightPayload) =>
       apiClient.post("/weights", input).then((r) => r.data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["weights", "latest"] })
+      queryClient.invalidateQueries({ queryKey: ["weights"] })
     },
     onError: (error) => {
       const message =

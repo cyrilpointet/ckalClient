@@ -17,6 +17,7 @@ export interface CreateProductPayload {
   description: string | null
   kcal: number
   isRecipe: boolean
+  barcode?: string | null
 }
 
 export interface Product {

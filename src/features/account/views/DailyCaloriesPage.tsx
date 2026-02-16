@@ -8,6 +8,7 @@ import { useUser } from "@/features/account/api/useAuth"
 import { useUpdateDailyCalories } from "@/features/account/api/useUpdateDailyCalories"
 import { WeightTracker } from "@/features/account/components/WeightTracker"
 import { AddWeightDialog } from "@/features/account/components/AddWeightDialog"
+import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -49,10 +50,11 @@ export function DailyCaloriesPage() {
       <CardContent className="space-y-4 pb-6">
         <WeightTracker />
         <Button
-          variant="outline"
+          variant="default"
           className="w-full"
           onClick={() => setIsWeightOpen(true)}
         >
+          <Plus className="h-4 w-4" />
           {t("features.auth.views.DailyCaloriesPage.addWeight")}
         </Button>
       </CardContent>

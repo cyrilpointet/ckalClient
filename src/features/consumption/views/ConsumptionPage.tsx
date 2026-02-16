@@ -118,7 +118,7 @@ export function ConsumptionPage() {
                     <span className="flex items-center flex-1 min-w-0">
                       <span className="truncate">{product.product.name}</span>
                       {product.quantity > 1 && (
-                        <span className="text-muted-foreground whitespace-nowrap shrink-0"> x{product.quantity}</span>
+                        <span className="text-muted-foreground whitespace-nowrap shrink-0 ml-1"> x{product.quantity}</span>
                       )}
                     </span>
                     <span className="font-medium whitespace-nowrap ml-auto">

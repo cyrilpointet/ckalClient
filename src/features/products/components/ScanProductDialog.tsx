@@ -36,12 +36,13 @@ export function ScanProductDialog({ children, className }: ScanProductDialogProp
   const scanMutation = useMutation({
     mutationFn: (code: string) =>
       apiClient.get<OffProduct>(`/off/${code}`).then((r) => r.data),
-    onSuccess: (data) => {
+    onSuccess: (data, code) => {
       createProduct.mutate({
         name: data.name,
         description: data.description || null,
         kcal: data.kcal,
         isRecipe: false,
+        barcode: code,
       })
     },
     onError: () => {

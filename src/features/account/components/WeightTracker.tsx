@@ -7,19 +7,25 @@ import {
   startOfQuarter, endOfQuarter, subQuarters,
 } from "date-fns"
 import { fr } from "date-fns/locale"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { ComposedChart, Line, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, ResponsiveContainer } from "recharts"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { useUser } from "@/features/account/api/useAuth"
 import { useLatestWeight } from "@/features/account/api/useLatestWeight"
 import { useWeightHistory } from "@/features/account/api/useWeightHistory"
+import { useDailyCalories } from "@/features/consumption/api/useDailyCalories"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
 
 import analyticsImage from "@/assets/analytics.png"
 
 export function WeightTracker() {
   const { t } = useTranslation()
+  const { data: user } = useUser()
   const { data: latestWeight } = useLatestWeight()
   const [chartRange, setChartRange] = useState<"week" | "month" | "quarter">("month")
   const [chartOffset, setChartOffset] = useState(0)
+  const [showCalories, setShowCalories] = useState(false)
 
   const now = new Date()
   let startDate: Date
@@ -39,15 +45,35 @@ export function WeightTracker() {
     endDate = endOfQuarter(ref)
   }
 
-  const { data: weightHistory } = useWeightHistory(
-    format(startDate, "yyyy-MM-dd"),
-    format(endDate, "yyyy-MM-dd"),
-  )
+  const fromStr = format(startDate, "yyyy-MM-dd")
+  const toStr = format(endDate, "yyyy-MM-dd")
 
-  const chartData = (weightHistory ?? []).map((w) => ({
-    date: format(new Date(w.date), "dd/MM", { locale: fr }),
-    value: w.value,
-  }))
+  const { data: weightHistory } = useWeightHistory(fromStr, toStr)
+  const { data: dailyCalories } = useDailyCalories(fromStr, toStr)
+
+  const calorieLimit = user?.dailyCalories ?? null
+
+  const chartData = (() => {
+    const byDate = new Map<string, { date: string; weight?: number; kcal?: number; overLimit?: boolean }>()
+
+    for (const w of weightHistory ?? []) {
+      const key = w.date.slice(0, 10)
+      const label = format(new Date(w.date), "dd/MM", { locale: fr })
+      byDate.set(key, { ...byDate.get(key), date: label, weight: w.value })
+    }
+
+    if (showCalories) {
+      for (const c of dailyCalories ?? []) {
+        const label = format(new Date(c.date), "dd/MM", { locale: fr })
+        const overLimit = calorieLimit != null && c.kcal > calorieLimit
+        byDate.set(c.date, { ...byDate.get(c.date), date: label, kcal: c.kcal, overLimit })
+      }
+    }
+
+    return Array.from(byDate.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([, v]) => v)
+  })()
 
   const periodLabel = `${format(startDate, "dd/MM", { locale: fr })} - ${format(endDate, "dd/MM", { locale: fr })}`
 
@@ -104,14 +130,70 @@ export function WeightTracker() {
             </Button>
           </div>
           <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={chartData}>
+            <ComposedChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="date" tick={{ fontSize: 12 }} />
-              <YAxis domain={["dataMin - 1", "dataMax + 1"]} tick={{ fontSize: 12 }} unit=" kg" />
-              <Tooltip formatter={(value) => [`${value} kg`, t("features.auth.components.WeightTracker.weightKg")]} />
-              <Line type="monotone" dataKey="value" stroke="var(--primary)" strokeWidth={2} dot={{ r: 3 }} />
-            </LineChart>
+              <YAxis
+                yAxisId="weight"
+                domain={["dataMin - 1", "dataMax + 1"]}
+                tick={{ fontSize: 12 }}
+                unit=" kg"
+              />
+              {showCalories && (
+                <YAxis
+                  yAxisId="calories"
+                  orientation="right"
+                  tick={{ fontSize: 12 }}
+                  unit=" kcal"
+                />
+              )}
+              <Tooltip />
+              {showCalories && calorieLimit && (
+                <ReferenceLine
+                  yAxisId="calories"
+                  y={calorieLimit}
+                  stroke="var(--destructive)"
+                  strokeDasharray="3 3"
+                  strokeWidth={1}
+                />
+              )}
+              {showCalories && (
+                <Bar
+                  yAxisId="calories"
+                  dataKey="kcal"
+                  opacity={0.3}
+                  name={t("features.auth.components.WeightTracker.kcal")}
+                >
+                  {chartData.map((entry, index) => (
+                    <Cell
+                      key={index}
+                      fill={entry.overLimit ? "var(--destructive)" : "var(--muted-foreground)"}
+                    />
+                  ))}
+                </Bar>
+              )}
+              <Line
+                yAxisId="weight"
+                type="monotone"
+                dataKey="weight"
+                stroke="var(--primary)"
+                strokeWidth={2}
+                dot={{ r: 3 }}
+                name={t("features.auth.components.WeightTracker.weightKg")}
+                connectNulls
+              />
+            </ComposedChart>
           </ResponsiveContainer>
+          <div className="flex items-center gap-2 mt-3">
+            <Checkbox
+              id="showCalories"
+              checked={showCalories}
+              onCheckedChange={(checked) => setShowCalories(checked === true)}
+            />
+            <Label htmlFor="showCalories" className="text-sm cursor-pointer">
+              {t("features.auth.components.WeightTracker.showCalories")}
+            </Label>
+          </div>
         </div>
       ) : (
         <div>

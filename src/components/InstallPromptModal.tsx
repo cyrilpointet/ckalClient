@@ -11,6 +11,8 @@ import {
 import { useInstallPrompt } from "@/hooks/use-install-prompt"
 import { useTranslation } from "react-i18next"
 
+import restaurantImage from "@/assets/restaurant.png"
+
 export function InstallPromptModal() {
   const { showModal, promptInstall, dismissModal } = useInstallPrompt()
   const { t } = useTranslation()
@@ -24,9 +26,17 @@ export function InstallPromptModal() {
         <AlertDialogHeader>
           <AlertDialogTitle>{t("components.InstallPromptModal.title")}</AlertDialogTitle>
           <AlertDialogDescription>
-            {t("components.InstallPromptModal.description")}
+            <p>
+              {t("components.InstallPromptModal.description")}
+            </p>
+            <img
+              src={restaurantImage}
+              alt="Empty"
+              className="mx-auto my-4 h-20 w-20"
+            />
           </AlertDialogDescription>
         </AlertDialogHeader>
+
         <AlertDialogFooter>
           <AlertDialogCancel>{t("components.InstallPromptModal.later")}</AlertDialogCancel>
           <AlertDialogAction onClick={promptInstall}>
