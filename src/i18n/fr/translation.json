@@ -4,7 +4,7 @@
       "home": "Accueil",
       "consumption": "Consommation",
       "products": "Produits",
-      "recipes": "Mes recettes",
+      "recipes": "Mes fiches recettes",
       "goal": "Objectif et suivi",
       "recipeGenerator": "Générateur de recette",
       "install": "Installer",
@@ -18,7 +18,10 @@
       "install": "Installer"
     },
     "ProductViewer": {
-      "calories": "Calories"
+      "calories": "Calories",
+      "protein": "Protéines",
+      "carbohydrate": "Glucides",
+      "lipid": "Lipides"
     }
   },
   "features": {
@@ -118,12 +121,12 @@
         "ScanProductDialog": {
           "title": "Recherche d'informations",
           "scanning": "Recherche...",
-          "scan": "Scanner un code barre",
+          "scan": "Scanner",
           "description": "Scannez le code barre d'un produit",
           "scanError": "Impossible de récupérer les informations du produit"
         },
         "PictureProductDialog": {
-          "photo": "Photo d'un produit",
+          "photo": "Photo",
           "title": "Photo du produit",
           "description": "Prenez ou choisissez une photo du produit",
           "confirm": "Confirmer",
@@ -142,7 +145,11 @@
           "estimate": "Estimation calorique",
           "estimateSuccess": "Estimation calorique terminée",
           "estimateError": "L'estimation calorique a échoué",
-          "caloriesLabel": "Calories (kcal)"
+          "caloriesLabel": "Calories (kcal)",
+          "macros": "Macronutriments (optionnel)",
+          "protein": "Protéines (g)",
+          "carbohydrate": "Glucides (g)",
+          "lipid": "Lipides (g)"
         }
       },
       "views": {
@@ -151,9 +158,9 @@
           "welcomeUser": "Bienvenue, {{username}} !",
           "kcal": "kcal",
           "caloriesExceeded": "Objectif calorique dépassé",
-          "recipePromo": "Créez une recette sur mesure avec notre chef IA",
-          "scanPromo": "Scannez un produit pour l'ajouter à votre menu",
-          "foodPhotoPromo": "Prenez une photo d'un plat pour estimer ses calories",
+          "recipePromo": "On cuisine quoi ? Générer mon menu sur mesure",
+          "scanPromo": "Ajouter rapidement un produit",
+          "foodPhotoPromo": "Analysez votre assiette en un clin d’œil",
           "locale": "fr-FR",
           "manageConsumption": "Gérer votre consommation du jour"
         },
@@ -163,7 +170,8 @@
           "empty": "Aucun produit",
           "loadingMore": "Chargement...",
           "loadMore": "Voir plus",
-          "add": "Décrire un produit"
+          "add": "Décrire un produit",
+          "addNewProduct": "Ajouter un nouveau produit"
         },
         "NewProductPage": {
           "title": "Nouveau produit",
@@ -206,28 +214,28 @@
     "recipes": {
       "views": {
         "RecipesPage": {
-          "title": "Mes recettes",
+          "title": "Mes fiches recettes",
           "searchPlaceholder": "Rechercher une recette...",
           "loading": "Chargement...",
           "empty": "Aucune recette",
           "loadingMore": "Chargement...",
           "loadMore": "Voir plus",
-          "add": "Ajouter une recette",
-          "generate": "Générer une recette"
+          "add": "Décrivez une recette",
+          "generate": "Générez une recette"
         },
         "RecipeGeneratorPage": {
           "title": "Générateur de recette",
-          "subtitle": "Une envie ? Des ingrédients ? Notre chef créera une nouvelle recette pour vous !",
+          "subtitle": "Une envie ? Des ingrédients ? Votre chef créera une nouvelle recette pour vous !",
           "description": "Description",
           "descriptionPlaceholder": "Ex: Un plat léger pour le soir",
           "ingredients": "Ingrédients",
           "ingredientsPlaceholder": "Ex: poulet, riz, tomates",
           "maxKcal": "Calories maximum (kcal)",
           "maxKcalPlaceholder": "Ex: 500",
-          "submit": "Générer une recette",
+          "submit": "Mijoter ma recette",
           "submitting": "Génération en cours...",
           "confirmTitle": "Recette générée",
-          "confirm": "Ajouter à mes recettes",
+          "confirm": "Valider",
           "confirming": "Création...",
           "cancel": "Annuler"
         }
@@ -240,11 +248,17 @@
       }
     },
     "consumption": {
+      "components": {
+        "ConsumptionSummary": {
+          "title": "Consommation du jour",
+          "total": "Total",
+          "kcal": "kcal",
+          "caloriesLeft": "Il vous reste"
+        }
+      },
       "views": {
         "ConsumptionPage": {
           "empty": "Aucune consommation pour cette date",
-          "total": "Total",
-          "kcal": "kcal",
           "add": "Ma liste de produits",
           "createRecipe": "Générer une recette adaptée",
           "deleteTitle": "Supprimer la consommation",

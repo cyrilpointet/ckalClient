@@ -157,7 +157,7 @@ export function AddConsumptionDialog({
               )}
             </div>
           </div>
-          <DialogFooter className="gap-2 sm:gap-0">
+          <DialogFooter className="grid grid-cols-2 gap-2 sm:gap-0">
             <Button
               type="button"
               variant="outline"

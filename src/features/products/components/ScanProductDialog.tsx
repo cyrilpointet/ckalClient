@@ -21,6 +21,9 @@ interface OffProduct {
   description: string
   weight: number
   kcal: number
+  protein: number | null
+  carbohydrate: number | null
+  lipid: number | null
 }
 
 interface ScanProductDialogProps {
@@ -41,6 +44,9 @@ export function ScanProductDialog({ children, className }: ScanProductDialogProp
         name: data.name,
         description: data.description || null,
         kcal: data.kcal,
+        protein: data.protein,
+        carbohydrate: data.carbohydrate,
+        lipid: data.lipid,
         isRecipe: false,
         barcode: code,
       })
@@ -64,7 +70,7 @@ export function ScanProductDialog({ children, className }: ScanProductDialogProp
       <DialogTrigger asChild>
         {children ?? (
           <div className={className}>
-            <Button variant="outline" disabled={isPending} className="w-full">
+            <Button disabled={isPending} className="w-full">
               {isPending ? (
                 <LoaderCircleIcon className="mr-2 h-4 w-4 animate-spin" />
               ) : (

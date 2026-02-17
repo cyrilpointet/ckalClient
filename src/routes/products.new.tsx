@@ -5,6 +5,9 @@ interface NewProductSearch {
   name?: string
   description?: string
   kcal?: number
+  protein?: number
+  carbohydrate?: number
+  lipid?: number
 }
 
 export const Route = createFileRoute("/products/new")({
@@ -13,6 +16,9 @@ export const Route = createFileRoute("/products/new")({
     description:
       typeof search.description === "string" ? search.description : undefined,
     kcal: typeof search.kcal === "number" ? search.kcal : undefined,
+    protein: typeof search.protein === "number" ? search.protein : undefined,
+    carbohydrate: typeof search.carbohydrate === "number" ? search.carbohydrate : undefined,
+    lipid: typeof search.lipid === "number" ? search.lipid : undefined,
   }),
   beforeLoad: () => {
     const token = localStorage.getItem("token")
@@ -30,6 +36,9 @@ function NewProductRoute() {
       defaultName={search.name}
       defaultDescription={search.description}
       defaultKcal={search.kcal}
+      defaultProtein={search.protein}
+      defaultCarbohydrate={search.carbohydrate}
+      defaultLipid={search.lipid}
     />
   )
 }

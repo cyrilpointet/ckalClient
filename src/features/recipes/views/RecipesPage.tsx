@@ -67,8 +67,8 @@ export function RecipesPage() {
             </ul>
             {hasNextPage && (
               <Button
-                variant="ghost"
-                className="w-full"
+                variant="outline"
+                className="mx-auto"
                 disabled={isFetchingNextPage}
                 onClick={() => fetchNextPage()}
               >
@@ -96,8 +96,8 @@ export function RecipesPage() {
 
       <CardFooter className="flex flex-col gap-2">
         <Link to="/recipe-generator" className="w-full">
-          <Button variant="secondary" className="w-full">
-            <Sparkles className="h-4 w-4" />
+          <Button className="w-full border-chart-4 border">
+            <Sparkles className="h-4 w-4 fill-chart-4 text-chart-4" />
             {t("features.recipes.views.RecipesPage.generate")}
           </Button>
         </Link>

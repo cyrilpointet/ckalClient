@@ -65,12 +65,15 @@ export function ProductDetailPage({ productId }: { productId: string }) {
           name={product.name}
           description={product.description}
           kcal={product.kcal}
+          protein={product.protein}
+          carbohydrate={product.carbohydrate}
+          lipid={product.lipid}
           showName={false}
         />
       </CardContent>
       <CardFooter className="flex flex-col gap-4">
         {product.isRecipe && (
-          <>
+          <div className="grid grid-cols-2 gap-2 w-full">
             <Link
               to="/products/$productId/edit"
               params={{ productId: product.id }}
@@ -86,6 +89,9 @@ export function ProductDetailPage({ productId }: { productId: string }) {
                 name: product.name,
                 description: product.description ?? undefined,
                 kcal: product.kcal,
+                protein: product.protein ?? undefined,
+                carbohydrate: product.carbohydrate ?? undefined,
+                lipid: product.lipid ?? undefined,
               }}
               className="w-full"
             >
@@ -93,7 +99,7 @@ export function ProductDetailPage({ productId }: { productId: string }) {
                 {t("features.products.views.ProductDetailPage.duplicate")}
               </Button>
             </Link>
-          </>
+          </div>
         )}
         <Button
           className="w-full"
@@ -109,11 +115,13 @@ export function ProductDetailPage({ productId }: { productId: string }) {
           {t("features.products.views.ProductDetailPage.delete")}
         </Button>
       </CardFooter>
+
       <AddConsumptionDialog
         productId={product.id}
         open={isAddOpen}
         onOpenChange={setIsAddOpen}
       />
+
       <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -122,7 +130,7 @@ export function ProductDetailPage({ productId }: { productId: string }) {
               {t("features.products.views.ProductDetailPage.deleteDescription")}
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
+          <AlertDialogFooter className="grid grid-cols-2 gap-2">
             <AlertDialogCancel>{t("features.products.views.ProductDetailPage.cancel")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={() =>
@@ -130,6 +138,7 @@ export function ProductDetailPage({ productId }: { productId: string }) {
                   onSuccess: () => navigate({ to: "/products" }),
                 })
               }
+              variant="destructive"
             >
               {t("features.products.views.ProductDetailPage.delete")}
             </AlertDialogAction>

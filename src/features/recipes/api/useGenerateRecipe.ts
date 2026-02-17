@@ -14,6 +14,9 @@ export interface GenerateRecipeResponse {
   name: string
   description: string
   total_calories: number
+  protein: number | null
+  carbohydrate: number | null
+  lipid: number | null
 }
 
 export function useGenerateRecipe() {

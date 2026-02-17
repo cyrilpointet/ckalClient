@@ -6,12 +6,18 @@ interface NewProductPageProps {
   defaultName?: string
   defaultDescription?: string
   defaultKcal?: number
+  defaultProtein?: number
+  defaultCarbohydrate?: number
+  defaultLipid?: number
 }
 
 export function NewProductPage({
   defaultName,
   defaultDescription,
   defaultKcal,
+  defaultProtein,
+  defaultCarbohydrate,
+  defaultLipid,
 }: NewProductPageProps) {
   const { t } = useTranslation()
   const createProduct = useCreateProduct()
@@ -27,6 +33,9 @@ export function NewProductPage({
         name: defaultName ?? "",
         description: defaultDescription ?? null,
         kcal: defaultKcal ?? 0,
+        protein: defaultProtein ?? null,
+        carbohydrate: defaultCarbohydrate ?? null,
+        lipid: defaultLipid ?? null,
       }}
       footer={null}
     />

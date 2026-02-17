@@ -22,6 +22,9 @@ interface PictureResult {
   name: string
   description: string
   total_calories: number
+  protein: number | null
+  carbohydrate: number | null
+  lipid: number | null
 }
 
 interface PictureProductDialogProps {
@@ -81,6 +84,9 @@ export function PictureProductDialog({ children, className }: PictureProductDial
       name: result.name,
       description: result.description || null,
       kcal: result.total_calories,
+      protein: result.protein,
+      carbohydrate: result.carbohydrate,
+      lipid: result.lipid,
       isRecipe: false,
     })
   }
@@ -108,7 +114,7 @@ export function PictureProductDialog({ children, className }: PictureProductDial
       <DialogTrigger asChild>
         {children ?? (
           <div className={className}>
-            <Button variant="outline" className="w-full">
+            <Button className="w-full">
               <Camera className="mr-2 h-4 w-4" />
               {t("features.products.components.PictureProductDialog.photo")}
             </Button>
@@ -130,6 +136,9 @@ export function PictureProductDialog({ children, className }: PictureProductDial
               name={result.name}
               description={result.description}
               kcal={result.total_calories}
+              protein={result.protein}
+              carbohydrate={result.carbohydrate}
+              lipid={result.lipid}
             />
             <DialogFooter className="gap-2 grid grid-cols-2">
               <Button variant="outline" onClick={resetState}>

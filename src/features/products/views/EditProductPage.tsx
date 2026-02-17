@@ -37,6 +37,9 @@ export function EditProductPage({ productId }: { productId: string }) {
         name: product.name,
         description: product.description,
         kcal: product.kcal,
+        protein: product.protein,
+        carbohydrate: product.carbohydrate,
+        lipid: product.lipid,
       }}
       footer={
         <Link

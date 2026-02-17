@@ -8,6 +8,9 @@ export const createProductSchema = z.object({
     .number()
     .int(i18n.t("features.products.types.mustBeInteger"))
     .min(1, i18n.t("features.products.types.mustBePositive")),
+  protein: z.number().min(0).nullable(),
+  carbohydrate: z.number().min(0).nullable(),
+  lipid: z.number().min(0).nullable(),
 })
 
 export type CreateProductInput = z.infer<typeof createProductSchema>
@@ -16,6 +19,9 @@ export interface CreateProductPayload {
   name: string
   description: string | null
   kcal: number
+  protein: number | null
+  carbohydrate: number | null
+  lipid: number | null
   isRecipe: boolean
   barcode?: string | null
 }
@@ -26,6 +32,9 @@ export interface Product {
   name: string
   description: string | null
   kcal: number
+  protein: number | null
+  carbohydrate: number | null
+  lipid: number | null
   isRecipe: boolean
   createdAt: string
   updatedAt: string

@@ -104,8 +104,11 @@ export function ProductsPage() {
       </CardContent>
 
       <CardFooter className="gap-2 flex flex-col">
-        <ScanProductDialog className="w-full" />
-        <PictureProductDialog className="w-full" />
+        <p className=" text-sm text-muted-foreground w-full italic">{t("features.products.views.ProductsPage.addNewProduct")}</p>
+        <div className="grid grid-cols-2 gap-2 w-full">
+          <ScanProductDialog className="w-full" />
+          <PictureProductDialog className="w-full" />
+        </div>
 
         <Link to="/products/new" className="w-full">
           <Button className="w-full">{t("features.products.views.ProductsPage.add")}</Button>

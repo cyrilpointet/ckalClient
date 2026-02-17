@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dialog"
 import { useGenerateRecipe } from "@/features/recipes/api/useGenerateRecipe"
 import { useCreateProduct } from "@/features/products/api/useCreateProduct"
-import { Loader2 } from "lucide-react"
+import { Loader2, Sparkles, Star } from "lucide-react"
 import { useUser } from "@/features/account/api/useAuth"
 import { useConsumedProducts } from "@/features/consumption/api/useConsumedProducts"
 import { ProductViewer } from "@/features/products/components/ProductViewer"
@@ -79,6 +79,9 @@ export function RecipeGeneratorPage() {
       name: generateRecipe.data.name,
       description: generateRecipe.data.description || null,
       kcal: generateRecipe.data.total_calories,
+      protein: generateRecipe.data.protein,
+      carbohydrate: generateRecipe.data.carbohydrate,
+      lipid: generateRecipe.data.lipid,
       isRecipe: true,
     })
   }
@@ -93,20 +96,6 @@ export function RecipeGeneratorPage() {
           <p className="text-center text-sm text-muted-foreground">
             {t("features.recipes.views.RecipeGeneratorPage.subtitle")}
           </p>
-          <div className="space-y-2">
-            <Label htmlFor="description">
-              {t(
-                "features.recipes.views.RecipeGeneratorPage.description",
-              )}
-            </Label>
-            <Textarea
-              id="description"
-              placeholder={t(
-                "features.recipes.views.RecipeGeneratorPage.descriptionPlaceholder",
-              )}
-              {...register("description")}
-            />
-          </div>
 
           <div className="space-y-2">
             <Label htmlFor="ingredients">
@@ -120,6 +109,21 @@ export function RecipeGeneratorPage() {
                 "features.recipes.views.RecipeGeneratorPage.ingredientsPlaceholder",
               )}
               {...register("ingredients")}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="description">
+              {t(
+                "features.recipes.views.RecipeGeneratorPage.description",
+              )}
+            </Label>
+            <Textarea
+              id="description"
+              placeholder={t(
+                "features.recipes.views.RecipeGeneratorPage.descriptionPlaceholder",
+              )}
+              {...register("description")}
             />
           </div>
 
@@ -143,23 +147,23 @@ export function RecipeGeneratorPage() {
         <CardFooter className="flex flex-col gap-4">
           <Button
             type="submit"
-            className="w-full"
+            className="w-full border-chart-4 border"
             disabled={generateRecipe.isPending}
           >
-            {generateRecipe.isPending && <Loader2 className="animate-spin" />}
+            {generateRecipe.isPending ? <Loader2 className="animate-spin" /> : <Sparkles className="h-4 w-4 fill-chart-4 text-chart-4" />}
             {generateRecipe.isPending
               ? t(
-                  "features.recipes.views.RecipeGeneratorPage.submitting",
-                )
+                "features.recipes.views.RecipeGeneratorPage.submitting",
+              )
               : t(
-                  "features.recipes.views.RecipeGeneratorPage.submit",
-                )}
+                "features.recipes.views.RecipeGeneratorPage.submit",
+              )}
           </Button>
-             <img
-              src={chefImage}
-              alt="Empty"
-              className="mx-auto mb-4 h-48 w-48"
-            />
+          <img
+            src={chefImage}
+            alt="Empty"
+            className="mx-auto mb-4 h-48 w-48"
+          />
         </CardFooter>
       </form>
 
@@ -169,20 +173,20 @@ export function RecipeGeneratorPage() {
           if (!open) generateRecipe.reset()
         }}
       >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              {t("features.recipes.views.RecipeGeneratorPage.confirmTitle")}
-            </DialogTitle>
-          </DialogHeader>
+        <DialogContent className="flex max-h-[85vh] flex-col">
           {generateRecipe.data && (
-            <ProductViewer
-              name={generateRecipe.data.name}
-              description={generateRecipe.data.description}
-              kcal={generateRecipe.data.total_calories}
-            />
+            <div className="overflow-y-auto flex-1 min-h-0">
+              <ProductViewer
+                name={generateRecipe.data.name}
+                description={generateRecipe.data.description}
+                kcal={generateRecipe.data.total_calories}
+                protein={generateRecipe.data.protein ?? undefined}
+                carbohydrate={generateRecipe.data.carbohydrate ?? undefined}
+                lipid={generateRecipe.data.lipid ?? undefined}
+              />
+            </div>
           )}
-          <DialogFooter className="gap-2 sm:gap-0">
+          <DialogFooter className="grid grid-cols-2 gap-2 sm:gap-0 shrink-0">
             <Button
               variant="outline"
               onClick={() => generateRecipe.reset()}
