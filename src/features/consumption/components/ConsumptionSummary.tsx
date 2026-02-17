@@ -17,6 +17,16 @@ export function ConsumptionSummary({ consumedProducts, dailyCalories, onDeleteIt
   const totalKcal = Math.round(
     consumedProducts.reduce((sum, p) => sum + p.product.kcal * p.quantity, 0),
   )
+  const totalProtein = Math.round(
+    consumedProducts.reduce((sum, p) => sum + (p.product.protein ?? 0) * p.quantity, 0) * 10,
+  ) / 10
+  const totalCarbohydrate = Math.round(
+    consumedProducts.reduce((sum, p) => sum + (p.product.carbohydrate ?? 0) * p.quantity, 0) * 10,
+  ) / 10
+  const totalLipid = Math.round(
+    consumedProducts.reduce((sum, p) => sum + (p.product.lipid ?? 0) * p.quantity, 0) * 10,
+  ) / 10
+  const hasMacros = totalProtein > 0 || totalCarbohydrate > 0 || totalLipid > 0
   const isOver = dailyCalories !== null && totalKcal > dailyCalories
   const caloriesLeft = Math.max(dailyCalories !== null ? dailyCalories - totalKcal : 0, 0)
 
@@ -56,7 +66,7 @@ export function ConsumptionSummary({ consumedProducts, dailyCalories, onDeleteIt
           </li>
         ))}
       </ul>
-      <p className="flex items-center justify-between border-t pt-4 text-sm font-semibold">
+      <p className="flex items-center justify-between border-t pt-4 font-semibold">
         <span>{t("features.consumption.components.ConsumptionSummary.total")}</span>
         <span>
           <span className={cn(isOver && "text-destructive")}>
@@ -71,6 +81,13 @@ export function ConsumptionSummary({ consumedProducts, dailyCalories, onDeleteIt
           {t("features.consumption.components.ConsumptionSummary.kcal")}
         </span>
       </p>
+      {hasMacros && (
+        <p className="flex items-center justify-between text-sm text-muted-foreground mt-2">
+          <span>{t("components.ProductViewer.protein")}: <span className="font-medium text-foreground">{totalProtein}g</span></span>
+          <span>{t("components.ProductViewer.carbohydrate")}: <span className="font-medium text-foreground">{totalCarbohydrate}g</span></span>
+          <span>{t("components.ProductViewer.lipid")}: <span className="font-medium text-foreground">{totalLipid}g</span></span>
+        </p>
+      )}
       {dailyCalories !== null && (
         <div className="mt-4">
           <p className="text-sm text-muted-foreground">
