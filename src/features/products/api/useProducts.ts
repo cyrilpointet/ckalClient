@@ -15,7 +15,7 @@ export function useProducts(name?: string) {
     queryFn: ({ pageParam }) =>
       apiClient
         .get<ProductsResponse>("/products", {
-          params: { take: PRODUCTS_TAKE, skip: pageParam, ...(name && { name }) },
+          params: { take: PRODUCTS_TAKE, skip: pageParam, sort: "-updated_at", ...(name && { name }) },
         })
         .then((r) => r.data),
     initialPageParam: 0,

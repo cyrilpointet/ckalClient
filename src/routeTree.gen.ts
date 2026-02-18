@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as RecipeGeneratorRouteImport } from './routes/recipe-generator'
 import { Route as LoginRouteImport } from './routes/login'
@@ -21,6 +22,11 @@ import { Route as ProductsNewRouteImport } from './routes/products.new'
 import { Route as ProductsProductIdRouteImport } from './routes/products.$productId'
 import { Route as ProductsProductIdEditRouteImport } from './routes/products.$productId_.edit'
 
+const VerifyEmailRoute = VerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/recipe-generator': typeof RecipeGeneratorRoute
   '/register': typeof RegisterRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
   '/products/': typeof ProductsIndexRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/recipe-generator': typeof RecipeGeneratorRoute
   '/register': typeof RegisterRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
   '/products': typeof ProductsIndexRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/recipe-generator': typeof RecipeGeneratorRoute
   '/register': typeof RegisterRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
   '/products/': typeof ProductsIndexRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/recipe-generator'
     | '/register'
+    | '/verify-email'
     | '/products/$productId'
     | '/products/new'
     | '/products/'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/recipe-generator'
     | '/register'
+    | '/verify-email'
     | '/products/$productId'
     | '/products/new'
     | '/products'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/recipe-generator'
     | '/register'
+    | '/verify-email'
     | '/products/$productId'
     | '/products/new'
     | '/products/'
@@ -166,6 +178,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   RecipeGeneratorRoute: typeof RecipeGeneratorRoute
   RegisterRoute: typeof RegisterRoute
+  VerifyEmailRoute: typeof VerifyEmailRoute
   ProductsProductIdRoute: typeof ProductsProductIdRoute
   ProductsNewRoute: typeof ProductsNewRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
@@ -175,6 +188,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
@@ -262,6 +282,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   RecipeGeneratorRoute: RecipeGeneratorRoute,
   RegisterRoute: RegisterRoute,
+  VerifyEmailRoute: VerifyEmailRoute,
   ProductsProductIdRoute: ProductsProductIdRoute,
   ProductsNewRoute: ProductsNewRoute,
   ProductsIndexRoute: ProductsIndexRoute,

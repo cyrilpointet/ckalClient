@@ -57,13 +57,20 @@ export function useLogin() {
 }
 
 export function useRegister() {
+  return useMutation({
+    mutationFn: (input: RegisterInput) =>
+      apiClient.post("/auth/register", input).then((r) => r.data),
+  })
+}
+
+export function useVerifyEmail() {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
   return useMutation({
-    mutationFn: (input: RegisterInput) =>
+    mutationFn: (token: string) =>
       apiClient
-        .post<AuthResponse>("/auth/register", input)
+        .post<AuthResponse>("/auth/verify-email", { token })
         .then((r) => r.data),
     onSuccess: (data) => {
       storeAuth(data)

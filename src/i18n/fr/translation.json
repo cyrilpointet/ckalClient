@@ -55,7 +55,15 @@
           "submit": "S'inscrire",
           "hasAccount": "Déjà un compte ?",
           "login": "Se connecter",
-          "error": "Erreur lors de l'inscription"
+          "error": "Erreur lors de l'inscription",
+          "emailAlreadyInUse": "Cet email est déjà utilisé",
+          "emailSent": "Un email de vérification vous a été envoyé. Consultez votre boîte de réception pour confirmer votre compte."
+        },
+        "VerifyEmailPage": {
+          "title": "Vérification de votre email",
+          "confirm": "Confirmer mon compte",
+          "confirming": "Vérification...",
+          "error": "Le lien de vérification est invalide ou a expiré"
         },
         "DailyCaloriesPage": {
           "title": "Objectif et suivi",
