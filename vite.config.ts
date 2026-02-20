@@ -15,7 +15,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['vite.svg', 'apple-touch-icon.png'],
+      includeAssets: ['logo_icon.svg', 'apple-touch-icon.png'],
       manifest: {
         name: 'Kcal - Suivi de calories',
         short_name: 'Kcal',

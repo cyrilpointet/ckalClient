@@ -1,4 +1,5 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router"
+import { RouteTransitionWrapper } from "@/components/RouteTransitionWrapper"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
@@ -30,8 +31,10 @@ function RootInner() {
   return (
     <InstallPromptContext.Provider value={installPrompt}>
       <TooltipProvider>
-        <div className="min-h-screen bg-background text-foreground">
-          <Outlet />
+        <div className="min-h-screen bg-primary/50 text-foreground">
+          <RouteTransitionWrapper>
+            <Outlet />
+          </RouteTransitionWrapper>
         </div>
         <Toaster />
         <InstallPromptModal />

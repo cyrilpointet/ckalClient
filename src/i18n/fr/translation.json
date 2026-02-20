@@ -150,7 +150,7 @@
           "description": "Description",
           "descriptionPlaceholder": "Description (optionnel)",
           "estimating": "Estimation en cours...",
-          "estimate": "Estimation calorique",
+          "estimate": "Estimation AI",
           "estimateSuccess": "Estimation calorique terminée",
           "estimateError": "L'estimation calorique a échoué",
           "caloriesLabel": "Calories (kcal)",

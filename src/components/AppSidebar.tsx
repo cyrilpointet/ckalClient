@@ -15,6 +15,9 @@ import {
 import { useInstallPrompt } from "@/hooks/use-install-prompt"
 import { useLogout } from "@/features/account/api/useAuth"
 
+import LogoImage from "@/assets/Logo_white.svg"
+
+
 const navItems = [
   { titleKey: "components.AppSidebar.home", to: "/", icon: Home },
   { titleKey: "components.AppSidebar.consumption", to: "/consumption", icon: UtensilsCrossed },
@@ -33,6 +36,8 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
+        <img src={LogoImage} alt="Logo" className="mx-auto px-4 text-primary" />
+
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>

@@ -11,6 +11,8 @@ import { CardContent, CardFooter } from "@/components/ui/card"
 import { AuthPageLayout } from "@/components/AuthPageLayout"
 import { AxiosError } from "axios"
 
+import LogoImage from "@/assets/Logo_white.svg"
+
 export function RegisterPage() {
   const { t } = useTranslation()
   const registerMutation = useRegister()
@@ -39,6 +41,7 @@ export function RegisterPage() {
   if (registerMutation.isSuccess) {
     return (
       <AuthPageLayout title={t("features.auth.views.RegisterPage.title")}>
+        <img src={LogoImage} alt="Logo" className="mx-auto mb-4 h-10 text-primary" />
         <CardContent className="space-y-4 text-center">
           <p className="text-muted-foreground">
             {t("features.auth.views.RegisterPage.emailSent")}
