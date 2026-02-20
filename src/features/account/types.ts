@@ -12,8 +12,18 @@ export const registerSchema = z.object({
   password: z.string().min(6, i18n.t("features.auth.types.minChars")),
 })
 
+export const forgotPasswordSchema = z.object({
+  email: z.string().email(i18n.t("features.auth.types.invalidEmail")),
+})
+
+export const resetPasswordSchema = z.object({
+  password: z.string().min(6, i18n.t("features.auth.types.minChars")),
+})
+
 export type LoginInput = z.infer<typeof loginSchema>
 export type RegisterInput = z.infer<typeof registerSchema>
+export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>
+export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>
 
 export interface User {
   id: string

@@ -10,9 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VerifyEmailRouteImport } from './routes/verify-email'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as RecipeGeneratorRouteImport } from './routes/recipe-generator'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as DailyCaloriesRouteImport } from './routes/daily-calories'
 import { Route as ConsumptionRouteImport } from './routes/consumption'
 import { Route as IndexRouteImport } from './routes/index'
@@ -25,6 +27,11 @@ import { Route as ProductsProductIdEditRouteImport } from './routes/products.$pr
 const VerifyEmailRoute = VerifyEmailRouteImport.update({
   id: '/verify-email',
   path: '/verify-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegisterRoute = RegisterRouteImport.update({
@@ -40,6 +47,11 @@ const RecipeGeneratorRoute = RecipeGeneratorRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DailyCaloriesRoute = DailyCaloriesRouteImport.update({
@@ -87,9 +99,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/consumption': typeof ConsumptionRoute
   '/daily-calories': typeof DailyCaloriesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/recipe-generator': typeof RecipeGeneratorRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
@@ -101,9 +115,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/consumption': typeof ConsumptionRoute
   '/daily-calories': typeof DailyCaloriesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/recipe-generator': typeof RecipeGeneratorRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
@@ -116,9 +132,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/consumption': typeof ConsumptionRoute
   '/daily-calories': typeof DailyCaloriesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/recipe-generator': typeof RecipeGeneratorRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
@@ -132,9 +150,11 @@ export interface FileRouteTypes {
     | '/'
     | '/consumption'
     | '/daily-calories'
+    | '/forgot-password'
     | '/login'
     | '/recipe-generator'
     | '/register'
+    | '/reset-password'
     | '/verify-email'
     | '/products/$productId'
     | '/products/new'
@@ -146,9 +166,11 @@ export interface FileRouteTypes {
     | '/'
     | '/consumption'
     | '/daily-calories'
+    | '/forgot-password'
     | '/login'
     | '/recipe-generator'
     | '/register'
+    | '/reset-password'
     | '/verify-email'
     | '/products/$productId'
     | '/products/new'
@@ -160,9 +182,11 @@ export interface FileRouteTypes {
     | '/'
     | '/consumption'
     | '/daily-calories'
+    | '/forgot-password'
     | '/login'
     | '/recipe-generator'
     | '/register'
+    | '/reset-password'
     | '/verify-email'
     | '/products/$productId'
     | '/products/new'
@@ -175,9 +199,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ConsumptionRoute: typeof ConsumptionRoute
   DailyCaloriesRoute: typeof DailyCaloriesRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   RecipeGeneratorRoute: typeof RecipeGeneratorRoute
   RegisterRoute: typeof RegisterRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
   ProductsProductIdRoute: typeof ProductsProductIdRoute
   ProductsNewRoute: typeof ProductsNewRoute
@@ -193,6 +219,13 @@ declare module '@tanstack/react-router' {
       path: '/verify-email'
       fullPath: '/verify-email'
       preLoaderRoute: typeof VerifyEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/register': {
@@ -214,6 +247,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/daily-calories': {
@@ -279,9 +319,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ConsumptionRoute: ConsumptionRoute,
   DailyCaloriesRoute: DailyCaloriesRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   RecipeGeneratorRoute: RecipeGeneratorRoute,
   RegisterRoute: RegisterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   VerifyEmailRoute: VerifyEmailRoute,
   ProductsProductIdRoute: ProductsProductIdRoute,
   ProductsNewRoute: ProductsNewRoute,

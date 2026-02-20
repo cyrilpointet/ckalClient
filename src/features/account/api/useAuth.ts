@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useNavigate } from "@tanstack/react-router"
 import apiClient from "@/lib/axios"
-import type { AuthResponse, LoginInput, RegisterInput, User } from "../types"
+import type { AuthResponse, ForgotPasswordInput, LoginInput, RegisterInput, User } from "../types"
 
 const USER_QUERY_KEY = ["user"] as const
 
@@ -71,6 +71,33 @@ export function useVerifyEmail() {
     mutationFn: (token: string) =>
       apiClient
         .post<AuthResponse>("/auth/verify-email", { token })
+        .then((r) => r.data),
+    onSuccess: (data) => {
+      storeAuth(data)
+      queryClient.setQueryData(USER_QUERY_KEY, {
+        ...data.user,
+        dailyCalories: data.lastDailyCalorie?.value ?? null,
+      })
+      navigate({ to: "/" })
+    },
+  })
+}
+
+export function useForgotPassword() {
+  return useMutation({
+    mutationFn: (input: ForgotPasswordInput) =>
+      apiClient.post("/auth/forgot-password", input).then((r) => r.data),
+  })
+}
+
+export function useResetPassword() {
+  const queryClient = useQueryClient()
+  const navigate = useNavigate()
+
+  return useMutation({
+    mutationFn: (input: { token: string; password: string }) =>
+      apiClient
+        .post<AuthResponse>("/auth/reset-password", input)
         .then((r) => r.data),
     onSuccess: (data) => {
       storeAuth(data)

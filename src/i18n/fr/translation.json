@@ -42,7 +42,8 @@
           "submit": "Se connecter",
           "noAccount": "Pas encore de compte ?",
           "createAccount": "Créer un compte",
-          "error": "Erreur de connexion"
+          "error": "Erreur de connexion",
+          "forgotPassword": "Mot de passe oublié ?"
         },
         "RegisterPage": {
           "title": "Inscription",
@@ -58,6 +59,23 @@
           "error": "Erreur lors de l'inscription",
           "emailAlreadyInUse": "Cet email est déjà utilisé",
           "emailSent": "Un email de vérification vous a été envoyé. Consultez votre boîte de réception pour confirmer votre compte."
+        },
+        "ForgotPasswordPage": {
+          "title": "Mot de passe oublié",
+          "email": "Email",
+          "emailPlaceholder": "email@exemple.com",
+          "submitting": "Envoi...",
+          "submit": "Envoyer le lien",
+          "emailSent": "Si un compte existe avec cet email, un lien de réinitialisation vous a été envoyé.",
+          "backToLogin": "Retour à la connexion",
+          "error": "Une erreur est survenue"
+        },
+        "ResetPasswordPage": {
+          "title": "Réinitialiser le mot de passe",
+          "password": "Nouveau mot de passe",
+          "submitting": "Réinitialisation...",
+          "submit": "Réinitialiser",
+          "error": "Le lien est invalide ou a expiré"
         },
         "VerifyEmailPage": {
           "title": "Vérification de votre email",

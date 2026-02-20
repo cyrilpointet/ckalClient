@@ -69,6 +69,12 @@ export function LoginPage() {
                   {errors.password.message}
                 </p>
               )}
+              <Link
+                to="/forgot-password"
+                className="text-sm text-muted-foreground hover:text-primary underline-offset-4 hover:underline block text-right"
+              >
+                {t("features.auth.views.LoginPage.forgotPassword")}
+              </Link>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-4 mt-8">
