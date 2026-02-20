@@ -59,7 +59,7 @@ export function ConsumptionSummary({ consumedProducts, dailyCalories, onDeleteIt
             <button
               type="button"
               onClick={() => onDeleteItem(product.id)}
-              className="p-1 text-muted-foreground transition-colors hover:text-destructive"
+              className="p-1 transition-colors text-destructive"
             >
               <Trash2 className="h-4 w-4" />
             </button>

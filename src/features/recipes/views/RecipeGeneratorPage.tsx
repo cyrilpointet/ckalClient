@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -8,16 +9,15 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import {
   Dialog,
   DialogContent,
   DialogFooter,
-  DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog"
 import { useGenerateRecipe } from "@/features/recipes/api/useGenerateRecipe"
 import { useCreateProduct } from "@/features/products/api/useCreateProduct"
-import { Loader2, Sparkles, Star } from "lucide-react"
+import { Loader2, Plus, Sparkles, X } from "lucide-react"
 import { useUser } from "@/features/account/api/useAuth"
 import { useConsumedProducts } from "@/features/consumption/api/useConsumedProducts"
 import { ProductViewer } from "@/features/products/components/ProductViewer"
@@ -26,7 +26,6 @@ import chefImage from "@/assets/chef.png"
 
 const recipeGeneratorSchema = z.object({
   description: z.string(),
-  ingredients: z.string(),
   maxKcal: z.union([
     z.number().int().min(1),
     z.nan().transform(() => undefined),
@@ -48,6 +47,9 @@ export function RecipeGeneratorPage() {
     ? Math.max(0, user.dailyCalories - totalKcal)
     : undefined
 
+  const [ingredients, setIngredients] = useState<string[]>([])
+  const [ingredientInput, setIngredientInput] = useState("")
+
   const {
     register,
     handleSubmit,
@@ -55,17 +57,23 @@ export function RecipeGeneratorPage() {
     resolver: zodResolver(recipeGeneratorSchema),
     defaultValues: {
       description: "",
-      ingredients: "",
       maxKcal: remainingKcal,
     },
   })
 
-  const onSubmit = (data: RecipeGeneratorForm) => {
-    const ingredients = data.ingredients
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean)
+  const addIngredient = () => {
+    const value = ingredientInput.trim()
+    if (value && !ingredients.includes(value)) {
+      setIngredients((prev) => [...prev, value])
+    }
+    setIngredientInput("")
+  }
 
+  const removeIngredient = (ingredient: string) => {
+    setIngredients((prev) => prev.filter((i) => i !== ingredient))
+  }
+
+  const onSubmit = (data: RecipeGeneratorForm) => {
     generateRecipe.mutate({
       description: data.description || undefined,
       ingredients: ingredients.length > 0 ? ingredients : undefined,
@@ -103,13 +111,48 @@ export function RecipeGeneratorPage() {
                 "features.recipes.views.RecipeGeneratorPage.ingredients",
               )}
             </Label>
-            <Input
-              id="ingredients"
-              placeholder={t(
-                "features.recipes.views.RecipeGeneratorPage.ingredientsPlaceholder",
-              )}
-              {...register("ingredients")}
-            />
+            <div className="flex gap-2">
+              <Input
+                id="ingredients"
+                placeholder={t(
+                  "features.recipes.views.RecipeGeneratorPage.ingredientsPlaceholder",
+                )}
+                value={ingredientInput}
+                onChange={(e) => setIngredientInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault()
+                    addIngredient()
+                  }
+                }}
+              />
+              <Button
+                type="button"
+                variant="default"
+                size="icon"
+                className="shrink-0 rounded-full"
+                onClick={addIngredient}
+                aria-label={t("features.recipes.views.RecipeGeneratorPage.addIngredient")}
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+            {ingredients.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {ingredients.map((ingredient) => (
+                  <Badge key={ingredient} variant="secondary" className="gap-1">
+                    {ingredient}
+                    <button
+                      type="button"
+                      onClick={() => removeIngredient(ingredient)}
+                      className="rounded-full hover:bg-muted-foreground/20"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </Badge>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="space-y-2">
